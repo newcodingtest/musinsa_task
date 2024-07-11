@@ -1,9 +1,15 @@
-package com.musinsa.shop.infrastructure.entity;
+package com.musinsa.shop.common.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.ToString;
+
 import java.math.BigDecimal;
 
 
+@ToString
+@Getter
 @MappedSuperclass
 public class Product {
     @Id
