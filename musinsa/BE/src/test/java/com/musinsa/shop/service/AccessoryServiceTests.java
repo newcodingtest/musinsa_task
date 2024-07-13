@@ -9,11 +9,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
-import java.util.Map;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,25 +24,23 @@ public class AccessoryServiceTests {
     private AccessoryService accessoryService;
 
     @Test
-    public void 액세서리에서_최저가격의_브랜드와_가격을_조회할_수_있다(){
+    public void 액세서리의_최저가격_브랜드와_가격을_조회할_수_있다(){
         //given
         AccessoryEntity accessory1 = AccessoryEntity.builder()
                 .brand("F")
                 .price(new BigDecimal(1900))
                 .build();
 
-
         AccessoryEntity accessory2 = AccessoryEntity.builder()
                 .brand("G")
                 .price(new BigDecimal(2000))
                 .build();
 
-        when(accessoryRepository.findFirstByOrderBrandDesc())
+        when(accessoryRepository.findFirstByOrderByPriceAscBrandDesc())
                                 .thenReturn(Optional.of(accessory1));
 
         //when
         Accessory accessory = accessoryService.getAccessoryMinimumPrice();
-
 
         //then
         assertNotNull(accessory);
@@ -54,14 +50,15 @@ public class AccessoryServiceTests {
 
 
     @Test
-    public void testGetAccessoryMinimumPrice_noData() {
+    public void 액세서리_정보가_없으면_최저가격_브랜드와_가격을_조회할_수_없다() {
         // Given
-        when(accessoryRepository.findTopByOrderByPriceAsc()).thenReturn(Optional.empty());
+
 
         // When & Then
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             accessoryService.getAccessoryMinimumPrice();
         });
+
         assertEquals("No accessories found", exception.getMessage());
     }
 }

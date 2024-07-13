@@ -1,6 +1,7 @@
 package com.musinsa.shop.infrastructure.jpa;
 
 import com.musinsa.shop.infrastructure.entity.AccessoryEntity;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -22,13 +23,47 @@ public class AccessoryRepositoryTests {
     @Test
     public void 액세서리에서_최저가격의_브랜드와_가격을_조회할_수_있다(){
         //given
-        AccessoryEntity accessory = accessoryRepository.findFirstByOrderBrandDesc().get();
+        AccessoryEntity accessory = accessoryRepository.findFirstByOrderByPriceAscBrandDesc().get();
 
         //when
         //then
         assertNotNull(accessory);
         assertEquals("F", accessory.getBrand());
         assertEquals(new BigDecimal(1900).stripTrailingZeros(), accessory.getPrice().stripTrailingZeros());
+    }
+
+    @Transactional
+    @Test
+    public void 특정_브랜드의_최저가격_액세서리를_조회_할_수_있다(){
+        //given
+        AccessoryEntity accessory1 = AccessoryEntity.builder()
+                .brand("A")
+                .price(new BigDecimal(1))
+                .build();
+
+        AccessoryEntity accessory2 = AccessoryEntity.builder()
+                .brand("A")
+                .price(new BigDecimal(2))
+                .build();
+
+        AccessoryEntity accessory3 = AccessoryEntity.builder()
+                .brand("A")
+                .price(new BigDecimal(3))
+                .build();
+
+        accessoryRepository.save(accessory1);
+        accessoryRepository.save(accessory2);
+
+        String brandName = "A";
+
+        //when
+        AccessoryEntity accessory = accessoryRepository.findFirstByBrandOrderByPriceAsc(brandName).get();
+
+        //then
+        assertNotNull(accessory);
+        assertEquals("A", accessory.getBrand());
+        assertEquals(new BigDecimal(1).stripTrailingZeros(),
+                accessory.getPrice().stripTrailingZeros());
     }
 
 }
