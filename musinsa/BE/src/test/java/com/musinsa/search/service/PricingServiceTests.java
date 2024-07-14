@@ -526,5 +526,5 @@ public class PricingServiceTests {
                 .getPrice());
     }
 
-  
+   
 }
