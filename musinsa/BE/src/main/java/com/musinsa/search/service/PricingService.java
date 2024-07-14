@@ -1,5 +1,7 @@
 package com.musinsa.search.service;
 
+import com.musinsa.common.exception.CategoryErrorCode;
+import com.musinsa.common.exception.CategoryException;
 import com.musinsa.search.api.response.BrandLowestPriceResponse;
 import com.musinsa.search.api.response.CategoryLowestPriceResponse;
 import com.musinsa.search.api.response.CategoryOneLowestPriceResponse;
@@ -16,6 +18,8 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.musinsa.common.exception.CategoryErrorCode.CATEGORY_NOT_FOUND;
 
 @RequiredArgsConstructor
 @Service
@@ -59,23 +63,23 @@ public class PricingService {
         return products;
     }
 
-    /**
-     * 특정 브랜드 로만 최저가격을 세팅하여 총액을 조회한다.
-     * */
-    public CategoryLowestPriceResponse getTotalLowestPriceByBrand(String brand){
-        BigDecimal totalPrice = BigDecimal.ZERO;
-
-        List<Product> lowestProducts = getLowestProductsByBrand(brand);
-
-        totalPrice = lowestProducts.stream()
-                .map(Product::getPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        return CategoryLowestPriceResponse.builder()
-                .products(CategoryLowestPriceResponse.fromModel(lowestProducts))
-                .totalPrice(BigDecimalUtils.formatWithCommas(totalPrice))
-                .build();
-    }
+//    /**
+//     * 특정 브랜드 로만 최저가격을 세팅하여 총액을 조회한다.
+//     * */
+//    public CategoryLowestPriceResponse getTotalLowestPriceByBrand(String brand){
+//        BigDecimal totalPrice = BigDecimal.ZERO;
+//
+//        List<Product> lowestProducts = getLowestProductsByBrand(brand);
+//
+//        totalPrice = lowestProducts.stream()
+//                .map(Product::getPrice)
+//                .reduce(BigDecimal.ZERO, BigDecimal::add);
+//
+//        return CategoryLowestPriceResponse.builder()
+//                .products(CategoryLowestPriceResponse.fromModel(lowestProducts))
+//                .totalPrice(BigDecimalUtils.formatWithCommas(totalPrice))
+//                .build();
+//    }
 
     /**
      * 카테고리 별로 최저가격 브랜드를 만들어준다.
@@ -187,7 +191,6 @@ public class PricingService {
      * */
 
     public CategoryOneLowestPriceResponse getLowHigtestBrandPrice(String category){
-        System.out.println("category = " + category);
         Product minimum = null;
         Product maximum = null;
 
@@ -245,6 +248,8 @@ public class PricingService {
                     .toModel();
             maximum = accessoryService.getAccessoryMaximumPrice()
                     .toModel();
+        } else {
+            throw new CategoryException.CategoryNotFoundException(CATEGORY_NOT_FOUND, category);
         }
         return CategoryOneLowestPriceResponse.builder()
                 .category(minimum.getCategory())

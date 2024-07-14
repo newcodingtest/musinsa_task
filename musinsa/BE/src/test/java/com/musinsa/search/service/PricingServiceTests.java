@@ -103,7 +103,6 @@ public class PricingServiceTests {
 
         //when
         CategoryLowestPriceResponse categoryLowestPriceResponse = categoryPricingService.getMinimumProduct();
-        System.out.println(" = " + categoryLowestPriceResponse);
 
         //then
 
@@ -281,7 +280,6 @@ public class PricingServiceTests {
 
         String jsonInString = om.writeValueAsString(categoryLowestPriceResponse);
 
-        System.out.println("jsonInString = " + jsonInString);
     }
 
     public void 브랜드별_최저가격_상품_세팅(){
