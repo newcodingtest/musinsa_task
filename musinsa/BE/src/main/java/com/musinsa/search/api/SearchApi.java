@@ -51,4 +51,9 @@ public class SearchApi {
         return new ResponseEntity<>(pricingService.getLowHigtestBrandPrice(category),
                 HttpStatus.FOUND);
     }
+
+    @GetMapping("/test")
+    public String test(){
+        return "itemDtl ";
+    }
 }

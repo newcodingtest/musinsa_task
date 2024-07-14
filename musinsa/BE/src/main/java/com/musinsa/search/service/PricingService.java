@@ -1,6 +1,5 @@
 package com.musinsa.search.service;
 
-import com.musinsa.common.exception.CategoryErrorCode;
 import com.musinsa.common.exception.CategoryException;
 import com.musinsa.search.api.response.BrandLowestPriceResponse;
 import com.musinsa.search.api.response.CategoryLowestPriceResponse;
@@ -8,8 +7,8 @@ import com.musinsa.search.api.response.CategoryOneLowestPriceResponse;
 import com.musinsa.search.domain.Product;
 import com.musinsa.search.utils.BigDecimalUtils;
 import com.musinsa.search.utils.RequestUtils;
-import com.musinsa.shop.domain.*;
-import com.musinsa.shop.service.*;
+import com.musinsa.product.domain.*;
+import com.musinsa.product.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

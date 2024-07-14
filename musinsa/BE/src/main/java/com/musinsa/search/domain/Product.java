@@ -1,6 +1,5 @@
 package com.musinsa.search.domain;
 
-import com.musinsa.shop.domain.Accessory;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;

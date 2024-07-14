@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.musinsa.search.api.response.BrandLowestPriceResponse;
 import com.musinsa.search.api.response.CategoryLowestPriceResponse;
 import com.musinsa.search.api.response.CategoryOneLowestPriceResponse;
-import com.musinsa.shop.domain.*;
-import com.musinsa.shop.service.*;
+import com.musinsa.product.domain.*;
+import com.musinsa.product.service.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -526,5 +526,5 @@ public class PricingServiceTests {
                 .getPrice());
     }
 
-   
+
 }
