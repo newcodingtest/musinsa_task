@@ -35,6 +35,18 @@ public class OuterRepositoryTests {
         assertEquals(new BigDecimal(5000).stripTrailingZeros(), outer.getPrice().stripTrailingZeros());
     }
 
+    @Test
+    public void 아우터에서_최고가격의_브랜드와_가격을_조회할_수_있다(){
+        //given
+        OuterEntity outer = outerRepository.findFirstByOrderByPriceDescBrandDesc().get();
+
+        //when
+        //then
+        assertNotNull(outer);
+        assertEquals("F", outer.getBrand());
+        assertEquals(new BigDecimal(7200).stripTrailingZeros(), outer.getPrice().stripTrailingZeros());
+    }
+
     @Transactional
     @Test
     public void 특정_브랜드의_최저가격_아우터를_조회_할_수_있다(){

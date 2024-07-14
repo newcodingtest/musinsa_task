@@ -2,6 +2,7 @@ package com.musinsa.shop.infrastructure.jpa;
 
 import com.musinsa.shop.infrastructure.entity.AccessoryEntity;
 import com.musinsa.shop.infrastructure.entity.HatEntity;
+import com.musinsa.shop.infrastructure.entity.SocksEntity;
 import com.musinsa.shop.infrastructure.entity.TopEntity;
 import com.musinsa.shop.infrastructure.jpa.TopRepository;
 import jakarta.transaction.Transactional;
@@ -32,6 +33,18 @@ public class TopRepositoryTests {
         assertNotNull(top);
         assertEquals("C", top.getBrand());
         assertEquals(new BigDecimal(10000).stripTrailingZeros(), top.getPrice().stripTrailingZeros());
+    }
+
+    @Test
+    public void 상의에서_최고가격의_브랜드와_가격을_조회할_수_있다(){
+        //given
+        TopEntity top = topepository.findFirstByOrderByPriceDescBrandDesc().get();
+
+        //when
+        //then
+        assertNotNull(top);
+        assertEquals("I", top.getBrand());
+        assertEquals(new BigDecimal(11400).stripTrailingZeros(), top.getPrice().stripTrailingZeros());
     }
 
     @Transactional

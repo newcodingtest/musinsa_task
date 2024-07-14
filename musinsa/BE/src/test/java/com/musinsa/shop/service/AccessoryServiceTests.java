@@ -48,6 +48,30 @@ public class AccessoryServiceTests {
         assertEquals(new BigDecimal(1900).stripTrailingZeros(), accessory.getPrice().stripTrailingZeros());
     }
 
+    @Test
+    public void 액세서리의_최고가격_브랜드와_가격을_조회할_수_있다(){
+        //given
+        AccessoryEntity accessory1 = AccessoryEntity.builder()
+                .brand("F")
+                .price(new BigDecimal(1900))
+                .build();
+
+        AccessoryEntity accessory2 = AccessoryEntity.builder()
+                .brand("G")
+                .price(new BigDecimal(2000))
+                .build();
+
+        when(accessoryRepository.findFirstByOrderByPriceDescBrandDesc())
+                .thenReturn(Optional.of(accessory2));
+
+        //when
+        Accessory accessory = accessoryService.getAccessoryMaximumPrice();
+
+        //then
+        assertNotNull(accessory);
+        assertEquals("G", accessory.getBrand());
+        assertEquals(new BigDecimal(2000).stripTrailingZeros(), accessory.getPrice().stripTrailingZeros());
+    }
 
     @Test
     public void 액세서리_정보가_없으면_최저가격_브랜드와_가격을_조회할_수_없다() {

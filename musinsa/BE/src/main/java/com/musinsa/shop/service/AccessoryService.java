@@ -11,10 +11,20 @@ import org.springframework.stereotype.Service;
 public class AccessoryService {
     private final AccessoryRepository accessoryRepository;
 
-
     public Accessory getAccessoryMinimumPrice(){
-        //return accessoryRepository.findFirstByOrderBrandDesc().orElseThrow().toModel();
         return accessoryRepository.findFirstByOrderByPriceAscBrandDesc()
+                .map(AccessoryEntity::toModel)
+                .orElseThrow(() -> new RuntimeException("No accessories found"));
+    }
+
+    public Accessory getAccessoryMaximumPrice(){
+        return accessoryRepository.findFirstByOrderByPriceDescBrandDesc()
+                .map(AccessoryEntity::toModel)
+                .orElseThrow(() -> new RuntimeException("No accessories found"));
+    }
+
+    public Accessory getAccessoryMinimumPriceByBrand(String brand){
+        return accessoryRepository.findFirstByBrandOrderByPriceAsc(brand)
                 .map(AccessoryEntity::toModel)
                 .orElseThrow(() -> new RuntimeException("No accessories found"));
     }

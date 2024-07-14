@@ -1,6 +1,8 @@
 package com.musinsa.shop.service;
 
+import com.musinsa.shop.domain.Socks;
 import com.musinsa.shop.domain.Top;
+import com.musinsa.shop.infrastructure.entity.SocksEntity;
 import com.musinsa.shop.infrastructure.entity.TopEntity;
 import com.musinsa.shop.infrastructure.jpa.TopRepository;
 import org.junit.jupiter.api.Test;
@@ -41,12 +43,38 @@ public class TopServiceTests {
                                 .thenReturn(Optional.of(top2));
 
         //when
-        Top top = topService.getAccessoryMinimumPrice();
+        Top top = topService.getTopMinimumPrice();
 
         //then
         assertNotNull(top);
         assertEquals("C", top.getBrand());
         assertEquals(new BigDecimal(10000).stripTrailingZeros(), top.getPrice().stripTrailingZeros());
+    }
+
+    @Test
+    public void 상의_최고가격_브랜드와_가격을_조회할_수_있다(){
+        //given
+        TopEntity top1 = TopEntity.builder()
+                .brand("B")
+                .price(new BigDecimal(10500))
+                .build();
+
+        TopEntity top2 = TopEntity.builder()
+                .brand("C")
+                .price(new BigDecimal(10000))
+                .build();
+
+
+        when(topRepository.findFirstByOrderByPriceDescBrandDesc())
+                .thenReturn(Optional.of(top1));
+
+        //when
+        Top top = topService.getTopMaximumPrice();
+
+        //then
+        assertNotNull(top);
+        assertEquals("B", top.getBrand());
+        assertEquals(new BigDecimal(10500).stripTrailingZeros(), top.getPrice().stripTrailingZeros());
     }
 
 
@@ -58,7 +86,7 @@ public class TopServiceTests {
 
         //when
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            topService.getAccessoryMinimumPrice();
+            topService.getTopMinimumPrice();
         });
 
         //then

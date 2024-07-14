@@ -1,6 +1,8 @@
 package com.musinsa.shop.service;
 
+import com.musinsa.shop.domain.Bottom;
 import com.musinsa.shop.domain.Hat;
+import com.musinsa.shop.infrastructure.entity.BottomEntity;
 import com.musinsa.shop.infrastructure.entity.HatEntity;
 import com.musinsa.shop.infrastructure.jpa.HatRepository;
 import org.junit.jupiter.api.Test;
@@ -41,7 +43,7 @@ public class HatServiceTests {
                                 .thenReturn(Optional.of(hat1));
 
         //when
-        Hat hat = hatService.getAccessoryMinimumPrice();
+        Hat hat = hatService.getHatMinimumPrice();
 
         //then
         assertNotNull(hat);
@@ -49,19 +51,65 @@ public class HatServiceTests {
         assertEquals(new BigDecimal(1500).stripTrailingZeros(), hat.getPrice().stripTrailingZeros());
     }
 
+    @Test
+    public void 모자의_최고가격_브랜드와_가격을_조회할_수_있다(){
+        //given
+        HatEntity hat1 = HatEntity.builder()
+                .brand("D")
+                .price(new BigDecimal(1500))
+                .build();
+
+        HatEntity hat2 = HatEntity.builder()
+                .brand("G")
+                .price(new BigDecimal(1700))
+                .build();
+
+        when(hatRepository.findFirstByOrderByPriceDescBrandDesc())
+                .thenReturn(Optional.of(hat2));
+
+        //when
+        Hat hat = hatService.getHatMaximumPrice();
+
+        //then
+        assertNotNull(hat);
+        assertEquals("G", hat.getBrand());
+        assertEquals(new BigDecimal(1700).stripTrailingZeros(), hat.getPrice().stripTrailingZeros());
+    }
 
     @Test
     public void 모자_정보가_없으면_최저가격_브랜드와_가격을_조회할_수_없다() {
         // given
+        // when
         when(hatRepository.findFirstByOrderByPriceAscBrandDesc())
                 .thenReturn(Optional.empty());
 
-        // when
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            hatService.getAccessoryMinimumPrice();
+            hatService.getHatMinimumPrice();
         });
 
         //then
         assertEquals("No accessories found", exception.getMessage());
+    }
+
+
+
+
+    @Test
+    public void 특정_브랜드의_최저가격_모자를_조회할_수_있다(){
+        //given
+        HatEntity hat1 = HatEntity.builder()
+                .brand("D")
+                .price(new BigDecimal(1500))
+                .build();
+
+        when(hatRepository.findFirstByBrandOrderByPriceAsc("D"))
+                .thenReturn(Optional.of(hat1));
+
+        //when
+        Hat hat = hatService.getHatMinimumPriceByBrand("D");
+        
+        //then
+        assertEquals(hat1.toModel().getBrand(), hat.getBrand());
+        assertEquals(hat1.toModel().getPrice(), hat.getPrice());
     }
 }

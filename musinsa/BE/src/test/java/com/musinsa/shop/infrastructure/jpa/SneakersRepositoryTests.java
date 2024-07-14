@@ -3,6 +3,7 @@ package com.musinsa.shop.infrastructure.jpa;
 import com.musinsa.shop.domain.Sneakers;
 import com.musinsa.shop.infrastructure.entity.AccessoryEntity;
 import com.musinsa.shop.infrastructure.entity.HatEntity;
+import com.musinsa.shop.infrastructure.entity.OuterEntity;
 import com.musinsa.shop.infrastructure.entity.SneakersEntity;
 import com.musinsa.shop.infrastructure.jpa.SneakersRepository;
 import jakarta.transaction.Transactional;
@@ -34,6 +35,18 @@ public class SneakersRepositoryTests {
         assertNotNull(sneakers);
         assertEquals("G", sneakers.getBrand());
         assertEquals(new BigDecimal(9000).stripTrailingZeros(), sneakers.getPrice().stripTrailingZeros());
+    }
+
+    @Test
+    public void 스니커즈에서_최고가격의_브랜드와_가격을_조회할_수_있다(){
+        //given
+        SneakersEntity sneakers = sneakersRepository.findFirstByOrderByPriceDescBrandDesc().get();
+
+        //when
+        //then
+        assertNotNull(sneakers);
+        assertEquals("E", sneakers.getBrand());
+        assertEquals(new BigDecimal(9900).stripTrailingZeros(), sneakers.getPrice().stripTrailingZeros());
     }
 
     @Transactional

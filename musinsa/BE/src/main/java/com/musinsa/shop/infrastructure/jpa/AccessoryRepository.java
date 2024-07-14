@@ -16,7 +16,13 @@ public interface AccessoryRepository extends JpaRepository<AccessoryEntity, Long
     Optional<AccessoryEntity> findFirstByOrderByPriceAscBrandDesc();
 
     /**
-     * 특정 브랜드 액세서리 조회
+     * 가장 비싼 악세서리 조회*
+     *
+     * */
+    Optional<AccessoryEntity> findFirstByOrderByPriceDescBrandDesc();
+
+    /**
+     * 가장 싼 특정 브랜드 액세서리 조회
      */
     Optional<AccessoryEntity> findFirstByBrandOrderByPriceAsc(String brand);
 }

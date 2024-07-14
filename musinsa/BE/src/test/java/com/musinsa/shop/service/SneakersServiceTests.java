@@ -1,6 +1,8 @@
 package com.musinsa.shop.service;
 
+import com.musinsa.shop.domain.Outer;
 import com.musinsa.shop.domain.Sneakers;
+import com.musinsa.shop.infrastructure.entity.OuterEntity;
 import com.musinsa.shop.infrastructure.entity.SneakersEntity;
 import com.musinsa.shop.infrastructure.jpa.SneakersRepository;
 import org.junit.jupiter.api.Test;
@@ -41,12 +43,37 @@ public class SneakersServiceTests {
                                 .thenReturn(Optional.of(sneakers1));
 
         //when
-        Sneakers sneakers = sneakersService.getAccessoryMinimumPrice();
+        Sneakers sneakers = sneakersService.getSneakersMinimumPrice();
 
         //then
         assertNotNull(sneakers);
         assertEquals("A", sneakers.getBrand());
         assertEquals(new BigDecimal(9000).stripTrailingZeros(), sneakers.getPrice().stripTrailingZeros());
+    }
+
+    @Test
+    public void 스니커즈_최고가격_브랜드와_가격을_조회할_수_있다(){
+        //given
+        SneakersEntity sneakers1 = SneakersEntity.builder()
+                .brand("A")
+                .price(new BigDecimal(9000))
+                .build();
+
+        SneakersEntity sneakers2 = SneakersEntity.builder()
+                .brand("B")
+                .price(new BigDecimal(9100))
+                .build();
+
+        when(sneakersRepository.findFirstByOrderByPriceDescBrandDesc())
+                .thenReturn(Optional.of(sneakers2));
+
+        //when
+        Sneakers sneakers = sneakersService.getSneakersMaximumPrice();
+
+        //then
+        assertNotNull(sneakers);
+        assertEquals("B", sneakers.getBrand());
+        assertEquals(new BigDecimal(9100).stripTrailingZeros(), sneakers.getPrice().stripTrailingZeros());
     }
 
 
@@ -58,7 +85,7 @@ public class SneakersServiceTests {
 
         //when
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            sneakersService.getAccessoryMinimumPrice();
+            sneakersService.getSneakersMinimumPrice();
         });
 
         //then

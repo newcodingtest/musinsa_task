@@ -32,6 +32,18 @@ public class AccessoryRepositoryTests {
         assertEquals(new BigDecimal(1900).stripTrailingZeros(), accessory.getPrice().stripTrailingZeros());
     }
 
+    @Test
+    public void 액세서리에서_최고가격의_브랜드와_가격을_조회할_수_있다(){
+        //given
+        AccessoryEntity accessory = accessoryRepository.findFirstByOrderByPriceDescBrandDesc().get();
+
+        //when
+        //then
+        assertNotNull(accessory);
+        assertEquals("I", accessory.getBrand());
+        assertEquals(new BigDecimal(2400).stripTrailingZeros(), accessory.getPrice().stripTrailingZeros());
+    }
+
     @Transactional
     @Test
     public void 특정_브랜드의_최저가격_액세서리를_조회_할_수_있다(){

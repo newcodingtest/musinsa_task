@@ -2,6 +2,7 @@ package com.musinsa.shop.infrastructure.jpa;
 
 import com.musinsa.shop.infrastructure.entity.AccessoryEntity;
 import com.musinsa.shop.infrastructure.entity.HatEntity;
+import com.musinsa.shop.infrastructure.entity.SneakersEntity;
 import com.musinsa.shop.infrastructure.entity.SocksEntity;
 import com.musinsa.shop.infrastructure.jpa.SocksRepository;
 import jakarta.transaction.Transactional;
@@ -34,6 +35,20 @@ public class SocksRepositoryTests {
         assertEquals("I", socks.getBrand());
         assertEquals(new BigDecimal(1700).stripTrailingZeros(), socks.getPrice().stripTrailingZeros());
     }
+
+    @Test
+    public void 양말에서_최고가격의_브랜드와_가격을_조회할_수_있다(){
+        //given
+        SocksEntity socks = socksRepository.findFirstByOrderByPriceDescBrandDesc().get();
+
+        //when
+        //then
+        assertNotNull(socks);
+        assertEquals("D", socks.getBrand());
+        assertEquals(new BigDecimal(2400).stripTrailingZeros(), socks.getPrice().stripTrailingZeros());
+    }
+
+
 
     @Transactional
     @Test

@@ -1,6 +1,8 @@
 package com.musinsa.shop.service;
 
+import com.musinsa.shop.domain.Bag;
 import com.musinsa.shop.domain.Bottom;
+import com.musinsa.shop.infrastructure.entity.BagEntity;
 import com.musinsa.shop.infrastructure.entity.BottomEntity;
 import com.musinsa.shop.infrastructure.jpa.BottomRepository;
 import org.junit.jupiter.api.Test;
@@ -41,12 +43,37 @@ public class BottomServiceTests {
                                 .thenReturn(Optional.of(bottom1));
 
         //when
-        Bottom bottom = bottomService.getAccessoryMinimumPrice();
+        Bottom bottom = bottomService.getBottomMinimumPrice();
 
         //then
         assertNotNull(bottom);
         assertEquals("H", bottom.getBrand());
         assertEquals(new BigDecimal(3100).stripTrailingZeros(), bottom.getPrice().stripTrailingZeros());
+    }
+
+    @Test
+    public void 바지의_최고가격_브랜드와_가격을_조회할_수_있다(){
+        //given
+        BottomEntity bottom1 = BottomEntity.builder()
+                .brand("H")
+                .price(new BigDecimal(3100))
+                .build();
+
+        BottomEntity bottom2 = BottomEntity.builder()
+                .brand("A")
+                .price(new BigDecimal(4200))
+                .build();
+
+        when(bottomRepository.findFirstByOrderByPriceDescBrandDesc())
+                .thenReturn(Optional.of(bottom2));
+
+        //when
+        Bottom bottom = bottomService.getBottomMaximumPrice();
+
+        //then
+        assertNotNull(bottom);
+        assertEquals("A", bottom.getBrand());
+        assertEquals(new BigDecimal(4200).stripTrailingZeros(), bottom.getPrice().stripTrailingZeros());
     }
 
 
@@ -59,7 +86,7 @@ public class BottomServiceTests {
 
         // when
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            bottomService.getAccessoryMinimumPrice();
+            bottomService.getBottomMinimumPrice();
         });
 
         //then

@@ -34,6 +34,18 @@ public class BagRepositoryTests {
         assertEquals(new BigDecimal(2000).stripTrailingZeros(), bag.getPrice().stripTrailingZeros());
     }
 
+    @Test
+    public void 가방에서_최고가격의_브랜드와_가격을_조회할_수_있다(){
+        //given
+        BagEntity bag = bagRepository.findFirstByOrderByPriceDescBrandDesc().get();
+
+        //when
+        //then
+        assertNotNull(bag);
+        assertEquals("D", bag.getBrand());
+        assertEquals(new BigDecimal(2500).stripTrailingZeros(), bag.getPrice().stripTrailingZeros());
+    }
+
     @Transactional
     @Test
     public void 특정_브랜드의_최저가격_가방을_조회_할_수_있다(){

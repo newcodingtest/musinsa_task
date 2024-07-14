@@ -1,6 +1,8 @@
 package com.musinsa.shop.service;
 
+import com.musinsa.shop.domain.Accessory;
 import com.musinsa.shop.domain.Bag;
+import com.musinsa.shop.infrastructure.entity.AccessoryEntity;
 import com.musinsa.shop.infrastructure.entity.BagEntity;
 import com.musinsa.shop.infrastructure.jpa.BagRepository;
 import org.junit.jupiter.api.Test;
@@ -40,12 +42,37 @@ public class BagServiceTests {
                                 .thenReturn(Optional.of(bag1));
 
         //when
-        Bag bag = bagService.getAccessoryMinimumPrice();
+        Bag bag = bagService.getBagMinimumPrice();
 
         //then
         assertNotNull(bag);
         assertEquals("A", bag.getBrand());
         assertEquals(new BigDecimal(2000).stripTrailingZeros(), bag.getPrice().stripTrailingZeros());
+    }
+
+    @Test
+    public void 액세서리의_최고가격_브랜드와_가격을_조회할_수_있다(){
+        //given
+        BagEntity bag1 = BagEntity.builder()
+                .brand("A")
+                .price(new BigDecimal(2000))
+                .build();
+
+        BagEntity bag2 = BagEntity.builder()
+                .brand("B")
+                .price(new BigDecimal(2100))
+                .build();
+
+        when(bagRepository.findFirstByOrderByPriceDescBrandDesc())
+                .thenReturn(Optional.of(bag2));
+
+        //when
+        Bag bag = bagService.getBagMaximumPrice();
+
+        //then
+        assertNotNull(bag);
+        assertEquals("B", bag.getBrand());
+        assertEquals(new BigDecimal(2100).stripTrailingZeros(), bag.getPrice().stripTrailingZeros());
     }
 
 
@@ -57,7 +84,7 @@ public class BagServiceTests {
 
         // When & Then
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            bagService.getAccessoryMinimumPrice();
+            bagService.getBagMinimumPrice();
         });
 
         assertEquals("No accessories found", exception.getMessage());

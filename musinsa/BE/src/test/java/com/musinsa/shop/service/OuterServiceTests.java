@@ -1,6 +1,8 @@
 package com.musinsa.shop.service;
 
+import com.musinsa.shop.domain.Hat;
 import com.musinsa.shop.domain.Outer;
+import com.musinsa.shop.infrastructure.entity.HatEntity;
 import com.musinsa.shop.infrastructure.entity.OuterEntity;
 import com.musinsa.shop.infrastructure.jpa.OuterRepository;
 import org.junit.jupiter.api.Test;
@@ -41,12 +43,37 @@ public class OuterServiceTests {
                                 .thenReturn(Optional.of(outer2));
 
         //when
-        Outer outer = outerService.getAccessoryMinimumPrice();
+        Outer outer = outerService.getOuterMinimumPrice();
 
         //then
         assertNotNull(outer);
         assertEquals("E", outer.getBrand());
         assertEquals(new BigDecimal(5000).stripTrailingZeros(), outer.getPrice().stripTrailingZeros());
+    }
+
+    @Test
+    public void 아우터_최고가격_브랜드와_가격을_조회할_수_있다(){
+        //given
+        OuterEntity outer1 = OuterEntity.builder()
+                .brand("D")
+                .price(new BigDecimal(5100))
+                .build();
+
+        OuterEntity outer2 = OuterEntity.builder()
+                .brand("E")
+                .price(new BigDecimal(5000))
+                .build();
+
+        when(outerRepository.findFirstByOrderByPriceDescBrandDesc())
+                .thenReturn(Optional.of(outer1));
+
+        //when
+        Outer outer = outerService.getOuterMaximumPrice();
+
+        //then
+        assertNotNull(outer);
+        assertEquals("D", outer.getBrand());
+        assertEquals(new BigDecimal(5100).stripTrailingZeros(), outer.getPrice().stripTrailingZeros());
     }
 
 
@@ -58,7 +85,7 @@ public class OuterServiceTests {
 
         //when
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            outerService.getAccessoryMinimumPrice();
+            outerService.getOuterMinimumPrice();
         });
 
         //then

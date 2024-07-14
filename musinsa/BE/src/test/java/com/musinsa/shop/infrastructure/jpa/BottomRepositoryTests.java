@@ -35,6 +35,18 @@ public class BottomRepositoryTests {
         assertEquals(new BigDecimal(3000).stripTrailingZeros(), bottom.getPrice().stripTrailingZeros());
     }
 
+    @Test
+    public void 바지에서_최고가격의_브랜드와_가격을_조회할_수_있다(){
+        //given
+        BottomEntity bottom = bottomRepository.findFirstByOrderByPriceDescBrandDesc().get();
+
+        //when
+        //then
+        assertNotNull(bottom);
+        assertEquals("A", bottom.getBrand());
+        assertEquals(new BigDecimal(4200).stripTrailingZeros(), bottom.getPrice().stripTrailingZeros());
+    }
+
     @Transactional
     @Test
     public void 특정_브랜드의_최저가격_바지를_조회_할_수_있다(){
