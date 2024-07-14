@@ -108,86 +108,79 @@ public class PricingServiceTests {
         //then
 
         //카테고리
-        assertEquals("상의", categoryLowestPriceResponse.getProducts()
+        assertEquals("모자", categoryLowestPriceResponse.getProducts()
+                .get(0).getCategory());
+        //가격
+        assertEquals("1,500", categoryLowestPriceResponse.getProducts()
                 .get(0)
+                .getPrice());
+        //브랜드
+        assertEquals("D", categoryLowestPriceResponse.getProducts()
+                .get(0)
+                .getBrand());
+
+        //카테고리
+        assertEquals("상의", categoryLowestPriceResponse.getProducts()
+                .get(1)
                 .getCategory());
         //가격
-        assertEquals(new BigDecimal(10_000).stripTrailingZeros(), categoryLowestPriceResponse.getProducts()
-                .get(0)
-                .getPrice()
-                .stripTrailingZeros());
+        assertEquals("10,000", categoryLowestPriceResponse.getProducts()
+                .get(1)
+                .getPrice());
         //브랜드
         assertEquals("C", categoryLowestPriceResponse.getProducts()
-                .get(0)
+                .get(1)
                 .getBrand());
 
         //카테고리
         assertEquals("아우터", categoryLowestPriceResponse.getProducts()
-                .get(1)
+                .get(2)
                 .getCategory());
         //가격
-        assertEquals(new BigDecimal(5000).stripTrailingZeros(), categoryLowestPriceResponse.getProducts()
-                .get(1)
-                .getPrice()
-                .stripTrailingZeros());
+        assertEquals("5,000", categoryLowestPriceResponse.getProducts()
+                .get(2)
+                .getPrice());
         //브랜드
         assertEquals("E", categoryLowestPriceResponse.getProducts()
-                .get(1)
+                .get(2)
                 .getBrand());
 
         //카테고리
         assertEquals("바지", categoryLowestPriceResponse.getProducts()
-                .get(2)
+                .get(3)
                 .getCategory());
         //가격
-        assertEquals(new BigDecimal(3000).stripTrailingZeros(), categoryLowestPriceResponse.getProducts()
-                .get(2)
-                .getPrice()
-                .stripTrailingZeros());
+        assertEquals("3,000", categoryLowestPriceResponse.getProducts()
+                .get(3)
+                .getPrice());
         //브랜드
         assertEquals("D", categoryLowestPriceResponse.getProducts()
-                .get(2)
+                .get(3)
                 .getBrand());
 
         //카테고리
         assertEquals("스니커즈", categoryLowestPriceResponse.getProducts()
-                .get(3)
+                .get(4)
                 .getCategory());
         //가격
-        assertEquals(new BigDecimal(9000).stripTrailingZeros(), categoryLowestPriceResponse.getProducts()
-                .get(3)
-                .getPrice()
-                .stripTrailingZeros());
+        assertEquals("9,000", categoryLowestPriceResponse.getProducts()
+                .get(4)
+                .getPrice());
         //브랜드
         assertEquals("G", categoryLowestPriceResponse.getProducts()
-                .get(3)
+                .get(4)
                 .getBrand());
 
         //카테고리
         assertEquals("가방", categoryLowestPriceResponse.getProducts()
-                .get(4)
+                .get(5)
                 .getCategory());
         //가격
-        assertEquals(new BigDecimal(2000).stripTrailingZeros(), categoryLowestPriceResponse.getProducts()
-                .get(4)
-                .getPrice()
-                .stripTrailingZeros());
+        assertEquals("2,000", categoryLowestPriceResponse.getProducts()
+                .get(5)
+                .getPrice());
         //브랜드
         assertEquals("A", categoryLowestPriceResponse.getProducts()
-                .get(4)
-                .getBrand());
-
-        //카테고리
-        assertEquals("모자", categoryLowestPriceResponse.getProducts()
-                .get(5)
-                .getCategory());
-        //가격
-        assertEquals(new BigDecimal(1500).stripTrailingZeros(), categoryLowestPriceResponse.getProducts()
-                .get(5)
-                .getPrice()
-                .stripTrailingZeros());
-        //브랜드
-        assertEquals("D", categoryLowestPriceResponse.getProducts()
                 .get(5)
                 .getBrand());
 
@@ -196,10 +189,9 @@ public class PricingServiceTests {
                 .get(6)
                 .getCategory());
         //가격
-        assertEquals(new BigDecimal(1700).stripTrailingZeros(), categoryLowestPriceResponse.getProducts()
+        assertEquals("1,700", categoryLowestPriceResponse.getProducts()
                 .get(6)
-                .getPrice()
-                .stripTrailingZeros());
+                .getPrice());
         //브랜드
         assertEquals("I", categoryLowestPriceResponse.getProducts()
                 .get(6)
@@ -210,18 +202,17 @@ public class PricingServiceTests {
                 .get(7)
                 .getCategory());
         //가격
-        assertEquals(new BigDecimal(1900).stripTrailingZeros(), categoryLowestPriceResponse.getProducts()
+        assertEquals("1,900", categoryLowestPriceResponse.getProducts()
                 .get(7)
-                .getPrice()
-                .stripTrailingZeros());
+                .getPrice());
         //브랜드
         assertEquals("F", categoryLowestPriceResponse.getProducts()
                 .get(7)
                 .getBrand());
 
         //총합
-        assertEquals(new BigDecimal(34_100).stripTrailingZeros(), categoryLowestPriceResponse.getTotalPrice()
-                .stripTrailingZeros());
+        assertEquals("34,100",
+                categoryLowestPriceResponse.getTotalPrice());
     }
 
     @Test
@@ -366,7 +357,7 @@ public class PricingServiceTests {
 
 
     @Test
-    public void 가장_싼_브랜드의_상품을_조회_할_수_있다() throws JsonProcessingException {
+    public void 가장_싼_브랜드의_상품을_조회_할_수_있다() {
         //given
         브랜드별_최저가격_상품_세팅();
 
@@ -374,15 +365,10 @@ public class PricingServiceTests {
         BrandLowestPriceResponse categoryLowestPriceResponse = categoryPricingService.getLowestBrandProduct();
 
         //then
-        assertEquals(new BigDecimal(8000), categoryLowestPriceResponse.getTotalPrice());
+        assertEquals("8,000", categoryLowestPriceResponse.getTotalPrice());
         assertEquals("A", categoryLowestPriceResponse
                 .getLowestProducts()
                 .getBrand());
-
-//        ObjectMapper om = new ObjectMapper();
-//        String json = om.writerWithDefaultPrettyPrinter().writeValueAsString(categoryLowestPriceResponse);
-//
-//        System.out.println(json);
     }
 
 
@@ -516,7 +502,7 @@ public class PricingServiceTests {
 
 
     @Test
-    public void 카테고리_이름으로_최저_최고가격을_조회_할_수_있다() throws JsonProcessingException {
+    public void 카테고리_이름으로_최저_최고가격을_조회_할_수_있다() {
         //given
         String category = "top";
         카테고리_최저최고_상품_세팅(category);
@@ -531,21 +517,15 @@ public class PricingServiceTests {
         assertEquals("I", getLowHigtestBrandPrice
                 .getLowest()
                 .getBrand());
-        assertEquals(new BigDecimal(1008).stripTrailingZeros(), getLowHigtestBrandPrice
+        assertEquals("1,008", getLowHigtestBrandPrice
                 .getLowest()
-                .getPrice()
-                .stripTrailingZeros());
+                .getPrice());
         assertEquals("I", getLowHigtestBrandPrice
                 .getHighest()
                 .getBrand());
-        assertEquals(new BigDecimal(2008).stripTrailingZeros(), getLowHigtestBrandPrice
+        assertEquals("2,008", getLowHigtestBrandPrice
                 .getHighest()
-                .getPrice()
-                .stripTrailingZeros());
-//
-//        ObjectMapper mapper = new ObjectMapper();
-//        String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(getLowHigtestBrandPrice);
-//        System.out.println(json);
+                .getPrice());
     }
 
 

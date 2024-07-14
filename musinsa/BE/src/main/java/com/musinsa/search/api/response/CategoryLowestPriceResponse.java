@@ -22,8 +22,9 @@ public class CategoryLowestPriceResponse {
     @JsonProperty("총액")
     String totalPrice;
 
+    @Getter
     @AllArgsConstructor
-    static class CategoryLowestProduct {
+    public static class CategoryLowestProduct {
         @JsonProperty("카테고리")
         private String category;
         @JsonProperty("브랜드")
