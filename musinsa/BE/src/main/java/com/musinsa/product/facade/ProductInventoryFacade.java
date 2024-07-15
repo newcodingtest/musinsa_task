@@ -7,6 +7,8 @@ import com.musinsa.product.api.request.ProductUpdateRequest;
 import com.musinsa.product.domain.*;
 import com.musinsa.product.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -24,6 +26,7 @@ public class ProductInventoryFacade {
     /**
      * 브랜드 및 상품을 추가
      * */
+    @CacheEvict(value = "productCache", key = "'lowestBrandProduct'")
     public void addProduct(ProductCreateRequest productCreateRequest){
         addProductExcute(productCreateRequest);
     }
@@ -60,6 +63,7 @@ public class ProductInventoryFacade {
     /**
      * 브랜드 및 상품을 업데이트
      * */
+    @Cacheable(value = "productCache", key = "#category")
     public void updateProduct(ProductUpdateRequest productUpdateRequest){
 
         updateProductExcute(productUpdateRequest);
@@ -89,6 +93,8 @@ public class ProductInventoryFacade {
     /**
      * 브랜드 및 상품을 삭제
      * */
+    // @CacheEvict(value = "productCache", allEntries = true)
+    @CacheEvict(value = "productCache", key = "#category")
     public void deleteProduct(ProductDeleteRequest productDeleteRequest){
         deleteProductExcute(productDeleteRequest);
     }
