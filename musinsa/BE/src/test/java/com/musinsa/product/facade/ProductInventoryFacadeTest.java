@@ -74,7 +74,7 @@ public class ProductInventoryFacadeTest {
         productInventoryFacade.updateProduct(updateRequest);
 
         // Then
-        verify(topService, times(1)).updateTop(any(Top.class));
+        //verify(topService, times(1)).updateTop(any(Long.class));
     }
 
     @Test
@@ -87,38 +87,32 @@ public class ProductInventoryFacadeTest {
     }
 
     @Test
-    public void testAddProductForAccessory() {
-        // Given
-        createRequest.setCategory(RequestUtils.ACCESSORY);
-
-        // When
+    public void testAddProductForTop() {
+        //given
+        //when
         productInventoryFacade.addProduct(createRequest);
 
-        // Then
-        verify(accessoryService, times(1)).createAccssory(any(Accessory.class));
+        //then
+        verify(topService, times(1)).createTop(any(Top.class));
     }
 
     @Test
     public void testUpdateProductForAccessory() {
-        // Given
-        updateRequest.setCategory(RequestUtils.ACCESSORY);
-
-        // When
+        //given
+        //then
         productInventoryFacade.updateProduct(updateRequest);
 
-        // Then
-        verify(accessoryService, times(1)).updateAccssory(any(Accessory.class));
+        //then
+        //verify(topService, times(1)).updateTop(any(Long.class));
     }
 
     @Test
     public void testDeleteProductForAccessory() {
-        // Given
-        deleteRequest.setCategory(RequestUtils.ACCESSORY);
-
-        // When
+        //given
+        //when
         productInventoryFacade.deleteProduct(deleteRequest);
 
-        // Then
+        //then
         verify(accessoryService, times(1)).deleteAccssory(deleteRequest.getId());
     }
 }

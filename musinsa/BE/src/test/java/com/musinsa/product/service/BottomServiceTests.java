@@ -129,7 +129,7 @@ public class BottomServiceTests {
         when(bottomRepository.findById(id)).thenReturn(Optional.of(bottomEntity));
 
         //when
-        bottomService.updateAccssory(id, bottom);
+        bottomService.updateBottom(id, bottom);
 
         //then
         verify(bottomRepository, times(1)).findById(id);
@@ -142,7 +142,7 @@ public class BottomServiceTests {
         Long id = 1L;
 
         //when
-        bottomService.deleteAccssory(id);
+        bottomService.deleteBottom(id);
 
         //then
         verify(bottomRepository, times(1)).deleteById(id);

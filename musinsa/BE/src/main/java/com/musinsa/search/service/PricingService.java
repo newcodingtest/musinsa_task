@@ -10,6 +10,7 @@ import com.musinsa.common.utils.RequestUtils;
 import com.musinsa.product.domain.*;
 import com.musinsa.product.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -33,39 +34,12 @@ public class PricingService {
     private final SocksService socksService;
     private final TopService topService;
 
-    /**
-     * 브랜드 별 최저가격 상품 조회
-     *
-     * */
-    private List<Product> getLowestProductsByBrand(String brand){
-        BigDecimal totalPrice = BigDecimal.ZERO;
-
-        Hat hat = hatService.getHatMinimumPriceByBrand(brand);
-        Top top = topService.getTopMinimumPriceByBrand(brand);
-        Outer outer = outerService.getOuterMinimumPriceByBrand(brand);
-        Bottom bottom = bottomService.getBottomMinimumPriceByBrand(brand);
-        Socks socks = socksService.getSocksMinimumPriceByBrand(brand);
-        Sneakers sneakers = sneakersService.getSneakersMinimumPriceByBrand(brand);
-        Accessory accessory = accessoryService.getAccessoryMinimumPriceByBrand(brand);
-        Bag bag = bagService.getBagMinimumPriceByBrand(brand);
-
-        List<Product> products = Arrays.asList(
-                hat.toModel(),
-                top.toModel(),
-                outer.toModel(),
-                bottom.toModel(),
-                socks.toModel(),
-                sneakers.toModel(),
-                accessory.toModel(),
-                bag.toModel()
-        );
-        return products;
-    }
 
     /**
      * 카테고리 별로 최저가격 브랜드를 만들어준다.
      *
      * */
+    @Cacheable(value = "productCache", key = "'minimumProduct'")
     public CategoryLowestPriceResponse getMinimumProduct(){
         BigDecimal totalPrice = BigDecimal.ZERO;
 
@@ -104,6 +78,7 @@ public class PricingService {
      * 조회하는 API
      *
      * */
+    @Cacheable(value = "productCache", key = "'lowestBrandProduct'")
     public BrandLowestPriceResponse getLowestBrandProduct(){
         //브랜드 별 최저가 상품 조회
         List<Product> lowestProductA = getLowestProductsByBrand("A");
@@ -155,22 +130,10 @@ public class PricingService {
 
 
     /**
-     * 주어진 카테고리의 총액 구하기
-     * */
-    private BigDecimal calculateTotalPrice(List<Product> products) {
-        BigDecimal totalPrice =  products.stream()
-                .map(Product::getPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        return totalPrice;
-    }
-    
-    
-    /**
      * 카테고리 이름으로 최저가격 조회하기
      * @param category, (top, outer, bottom, sneakers, hat, socks, accessory)
      * */
-
+    @Cacheable(value = "productCache", key = "'category'")
     public CategoryOneLowestPriceResponse getLowHigtestBrandPrice(String category){
         Product minimum = null;
         Product maximum = null;
@@ -239,6 +202,47 @@ public class PricingService {
                 .highest(CategoryOneLowestPriceResponse
                         .fromModel(maximum))
                 .build();
+    }
+
+    /**
+     * 브랜드 별 최저가격 상품 조회
+     *
+     * */
+    private List<Product> getLowestProductsByBrand(String brand){
+        BigDecimal totalPrice = BigDecimal.ZERO;
+
+        Hat hat = hatService.getHatMinimumPriceByBrand(brand);
+        Top top = topService.getTopMinimumPriceByBrand(brand);
+        Outer outer = outerService.getOuterMinimumPriceByBrand(brand);
+        Bottom bottom = bottomService.getBottomMinimumPriceByBrand(brand);
+        Socks socks = socksService.getSocksMinimumPriceByBrand(brand);
+        Sneakers sneakers = sneakersService.getSneakersMinimumPriceByBrand(brand);
+        Accessory accessory = accessoryService.getAccessoryMinimumPriceByBrand(brand);
+        Bag bag = bagService.getBagMinimumPriceByBrand(brand);
+
+        List<Product> products = Arrays.asList(
+                hat.toModel(),
+                top.toModel(),
+                outer.toModel(),
+                bottom.toModel(),
+                socks.toModel(),
+                sneakers.toModel(),
+                accessory.toModel(),
+                bag.toModel()
+        );
+        return products;
+    }
+
+
+    /**
+     * 주어진 카테고리의 총액 구하기
+     * */
+    private BigDecimal calculateTotalPrice(List<Product> products) {
+        BigDecimal totalPrice =  products.stream()
+                .map(Product::getPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return totalPrice;
     }
 
 }

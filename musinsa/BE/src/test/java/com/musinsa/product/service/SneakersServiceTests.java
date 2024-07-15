@@ -112,7 +112,7 @@ public class SneakersServiceTests {
         SneakersEntity sneakersEntity = SneakersEntity.fromModel(sneakers);
 
         //when
-        sneakersService.createAccssory(sneakers);
+        sneakersService.createSneakers(sneakers);
 
         //then
         verify(sneakersRepository, times(1)).save(any(SneakersEntity.class));
@@ -130,7 +130,7 @@ public class SneakersServiceTests {
         when(sneakersRepository.findById(id)).thenReturn(Optional.of(sneakersEntity));
 
         //when
-        sneakersService.updateAccssory(id, sneakers);
+        sneakersService.updateSneakers(id, sneakers);
 
         //then
         verify(sneakersRepository, times(1)).findById(id);
@@ -143,7 +143,7 @@ public class SneakersServiceTests {
         Long id = 1L;
 
         //when
-        sneakersService.deleteAccssory(id);
+        sneakersService.deleteSneakers(id);
 
         //then
         verify(sneakersRepository, times(1)).deleteById(id);
