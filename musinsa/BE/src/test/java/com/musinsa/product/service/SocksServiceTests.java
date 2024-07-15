@@ -1,6 +1,10 @@
 package com.musinsa.product.service;
 
+import com.musinsa.common.exception.CategoryErrorCode;
+import com.musinsa.product.domain.Accessory;
 import com.musinsa.product.domain.Socks;
+import com.musinsa.product.infrastructure.entity.AccessoryEntity;
+import com.musinsa.product.infrastructure.entity.SneakersEntity;
 import com.musinsa.product.infrastructure.entity.SocksEntity;
 import com.musinsa.product.infrastructure.jpa.SocksRepository;
 import org.junit.jupiter.api.Test;
@@ -13,7 +17,8 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class SocksServiceTests {
@@ -23,6 +28,9 @@ public class SocksServiceTests {
 
     @InjectMocks
     private SocksService socksService;
+
+    @Mock
+    private SocksEntity socksEntity;
 
     @Test
     public void 양말_최저가격_브랜드와_가격을_조회할_수_있다(){
@@ -83,11 +91,60 @@ public class SocksServiceTests {
                 .thenReturn(Optional.empty());
 
         //when
+        //then
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             socksService.getSocksMinimumPrice();
         });
 
+        assertEquals(CategoryErrorCode
+                        .CATEGORY_ITEM_NOT_FOUND
+                        .getMessage(),
+                exception.getMessage());
+    }
+
+    @Test
+    public void 새로운_양말을_생성_할_수_있다() {
+        //given
+        Socks socks = Socks.builder()
+                .brand("양말")
+                .price(new BigDecimal(0))
+                .build();
+
+        //when
+        socksService.createSocks(socks);
+
         //then
-        assertEquals("No accessories found", exception.getMessage());
+        verify(socksRepository, times(1)).save(any(SocksEntity.class));
+    }
+
+    @Test
+    public void 양말을_수정_할_수_있다(){
+        Long id = 1L;
+        //given
+        Socks socks = Socks.builder()
+                .brand("양말")
+                .price(new BigDecimal(0))
+                .build();
+
+        when(socksRepository.findById(id)).thenReturn(Optional.of(socksEntity));
+
+        //when
+        socksService.updateSocks(id, socks);
+
+        //then
+        verify(socksRepository, times(1)).findById(id);
+        verify(socksEntity, times(1)).change(socks);
+    }
+
+    @Test
+    public void id로_양말을_삭제_할_수_있다(){
+        //given
+        Long id = 1L;
+
+        //when
+        socksService.deleteSocks(id);
+
+        //then
+        verify(socksRepository, times(1)).deleteById(id);
     }
 }

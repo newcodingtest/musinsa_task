@@ -2,10 +2,9 @@ package com.musinsa.search.api.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.musinsa.search.domain.Product;
-import com.musinsa.search.utils.BigDecimalUtils;
+import com.musinsa.common.utils.BigDecimalUtils;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 

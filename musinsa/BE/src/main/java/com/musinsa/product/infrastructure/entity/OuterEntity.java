@@ -1,5 +1,6 @@
 package com.musinsa.product.infrastructure.entity;
 
+import com.musinsa.product.domain.Hat;
 import com.musinsa.product.domain.Outer;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -43,5 +44,10 @@ public class OuterEntity {
                 .brand(brand)
                 .price(price)
                 .build();
+    }
+
+    public void change(Outer outer){
+        this.price = outer.getPrice();
+        this.brand = outer.getBrand();
     }
 }

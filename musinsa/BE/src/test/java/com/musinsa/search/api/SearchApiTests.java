@@ -5,7 +5,7 @@ import com.musinsa.search.api.response.CategoryLowestPriceResponse;
 import com.musinsa.search.api.response.CategoryOneLowestPriceResponse;
 import com.musinsa.search.domain.Product;
 import com.musinsa.search.service.PricingService;
-import com.musinsa.search.utils.BigDecimalUtils;
+import com.musinsa.common.utils.BigDecimalUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

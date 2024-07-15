@@ -6,6 +6,7 @@ import com.musinsa.product.infrastructure.entity.AccessoryEntity;
 import com.musinsa.product.infrastructure.jpa.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.musinsa.common.exception.CategoryErrorCode.CATEGORY_BRAND_ITEM_NOT_FOUND;
 import static com.musinsa.common.exception.CategoryErrorCode.CATEGORY_ITEM_NOT_FOUND;
@@ -32,5 +33,22 @@ public class AccessoryService {
                 .map(AccessoryEntity::toModel)
                 .orElseThrow(() -> new CategoryException.BrandCategoryItemNotFoundException(CATEGORY_BRAND_ITEM_NOT_FOUND, brand));
     }
+
+    public void createAccssory(Accessory accessory){
+        accessoryRepository.save(AccessoryEntity
+                .fromModel(accessory));
+    }
+
+    @Transactional
+    public void updateAccssory(Long id, Accessory accessory){
+        AccessoryEntity accessoryEntity = accessoryRepository.findById(id).get();
+        accessoryEntity.change(accessory);
+    }
+
+    public void deleteAccssory(Long id){
+        accessoryRepository.deleteById(id);
+    }
+
+
 
 }

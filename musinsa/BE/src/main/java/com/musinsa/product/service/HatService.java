@@ -1,10 +1,14 @@
 package com.musinsa.product.service;
+import com.musinsa.product.domain.Accessory;
 import com.musinsa.product.domain.Hat;
+import com.musinsa.product.infrastructure.entity.AccessoryEntity;
 import com.musinsa.product.infrastructure.entity.HatEntity;
 import com.musinsa.product.infrastructure.jpa.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.musinsa.common.exception.CategoryException;
+import org.springframework.transaction.annotation.Transactional;
+
 import static com.musinsa.common.exception.CategoryErrorCode.CATEGORY_BRAND_ITEM_NOT_FOUND;
 import static com.musinsa.common.exception.CategoryErrorCode.CATEGORY_ITEM_NOT_FOUND;
 
@@ -30,5 +34,20 @@ public class HatService {
         return hatRepository.findFirstByBrandOrderByPriceAsc(brand)
                 .map(HatEntity::toModel)
                 .orElseThrow(() -> new CategoryException.BrandCategoryItemNotFoundException(CATEGORY_BRAND_ITEM_NOT_FOUND, brand));
+    }
+
+    public void createHat(Hat hat){
+        hatRepository.save(HatEntity
+                .fromModel(hat));
+    }
+
+    @Transactional
+    public void updateHat(Long id, Hat accessory){
+        HatEntity hatEntity = hatRepository.findById(id).get();
+        hatEntity.change(accessory);
+    }
+
+    public void deleteHat(Long id){
+        hatRepository.deleteById(id);
     }
 }

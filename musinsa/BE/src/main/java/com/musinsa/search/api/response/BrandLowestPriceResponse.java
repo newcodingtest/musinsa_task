@@ -2,12 +2,11 @@ package com.musinsa.search.api.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.musinsa.search.domain.Product;
-import com.musinsa.search.utils.BigDecimalUtils;
+import com.musinsa.common.utils.BigDecimalUtils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 /***

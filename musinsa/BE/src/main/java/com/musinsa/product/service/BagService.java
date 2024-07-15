@@ -1,11 +1,14 @@
 package com.musinsa.product.service;
 
 import com.musinsa.common.exception.CategoryException;
+import com.musinsa.product.domain.Accessory;
 import com.musinsa.product.domain.Bag;
+import com.musinsa.product.infrastructure.entity.AccessoryEntity;
 import com.musinsa.product.infrastructure.entity.BagEntity;
 import com.musinsa.product.infrastructure.jpa.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.musinsa.common.exception.CategoryErrorCode.CATEGORY_ITEM_NOT_FOUND;
 import static com.musinsa.common.exception.CategoryErrorCode.CATEGORY_NOT_FOUND;
@@ -31,5 +34,20 @@ public class BagService {
         return bagRepository.findFirstByBrandOrderByPriceAsc(brand)
                 .map(BagEntity::toModel)
                 .orElseThrow(() -> new CategoryException.BrandCategoryItemNotFoundException(CATEGORY_NOT_FOUND, brand));
+    }
+
+    public void createBag(Bag bag){
+        bagRepository.save(BagEntity
+                .fromModel(bag));
+    }
+
+    @Transactional
+    public void updateBag(Long id, Bag bag){
+        BagEntity bagEntity = bagRepository.findById(id).get();
+        bagEntity.change(bag);
+    }
+
+    public void deleteBag(Long id){
+        bagRepository.deleteById(id);
     }
 }

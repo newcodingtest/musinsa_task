@@ -45,4 +45,9 @@ public class AccessoryEntity {
                 .price(price)
                 .build();
     }
+
+    public void change(Accessory accessory){
+        this.price = accessory.getPrice();
+        this.brand = accessory.getBrand();
+    }
 }

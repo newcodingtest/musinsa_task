@@ -1,4 +1,4 @@
-package com.musinsa.search.utils;
+package com.musinsa.common.utils;
 
 public class RequestUtils {
     public static final String TOP = "top";

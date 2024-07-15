@@ -1,5 +1,6 @@
 package com.musinsa.product.infrastructure.entity;
 
+import com.musinsa.product.domain.Sneakers;
 import com.musinsa.product.domain.Socks;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -43,6 +44,11 @@ public class SocksEntity {
                 .brand(brand)
                 .price(price)
                 .build();
+    }
+
+    public void change(Socks socks){
+        this.price = socks.getPrice();
+        this.brand = socks.getBrand();
     }
 
 }

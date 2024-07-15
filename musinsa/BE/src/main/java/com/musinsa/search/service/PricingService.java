@@ -5,8 +5,8 @@ import com.musinsa.search.api.response.BrandLowestPriceResponse;
 import com.musinsa.search.api.response.CategoryLowestPriceResponse;
 import com.musinsa.search.api.response.CategoryOneLowestPriceResponse;
 import com.musinsa.search.domain.Product;
-import com.musinsa.search.utils.BigDecimalUtils;
-import com.musinsa.search.utils.RequestUtils;
+import com.musinsa.common.utils.BigDecimalUtils;
+import com.musinsa.common.utils.RequestUtils;
 import com.musinsa.product.domain.*;
 import com.musinsa.product.service.*;
 import lombok.RequiredArgsConstructor;
@@ -61,24 +61,6 @@ public class PricingService {
         );
         return products;
     }
-
-//    /**
-//     * 특정 브랜드 로만 최저가격을 세팅하여 총액을 조회한다.
-//     * */
-//    public CategoryLowestPriceResponse getTotalLowestPriceByBrand(String brand){
-//        BigDecimal totalPrice = BigDecimal.ZERO;
-//
-//        List<Product> lowestProducts = getLowestProductsByBrand(brand);
-//
-//        totalPrice = lowestProducts.stream()
-//                .map(Product::getPrice)
-//                .reduce(BigDecimal.ZERO, BigDecimal::add);
-//
-//        return CategoryLowestPriceResponse.builder()
-//                .products(CategoryLowestPriceResponse.fromModel(lowestProducts))
-//                .totalPrice(BigDecimalUtils.formatWithCommas(totalPrice))
-//                .build();
-//    }
 
     /**
      * 카테고리 별로 최저가격 브랜드를 만들어준다.

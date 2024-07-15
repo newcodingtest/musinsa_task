@@ -1,5 +1,8 @@
 package com.musinsa.product.domain;
 
+import com.musinsa.common.utils.BigDecimalUtils;
+import com.musinsa.product.api.request.ProductCreateRequest;
+import com.musinsa.product.api.request.ProductUpdateRequest;
 import com.musinsa.search.domain.Product;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +22,20 @@ public class Hat {
                 .category("모자")
                 .brand(brand)
                 .price(price)
+                .build();
+    }
+
+    public static Hat create(ProductCreateRequest productCreateRequest) {
+        return Hat.builder()
+                .brand(productCreateRequest.getBrand())
+                .price(BigDecimalUtils.parseWithoutCommas(productCreateRequest.getPrice()))
+                .build();
+    }
+
+    public static Hat update(ProductUpdateRequest productUpdateRequest) {
+        return Hat.builder()
+                .brand(productUpdateRequest.getBrand())
+                .price(BigDecimalUtils.parseWithoutCommas(productUpdateRequest.getPrice()))
                 .build();
     }
 }

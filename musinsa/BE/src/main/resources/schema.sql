@@ -45,3 +45,4 @@ CREATE TABLE IF NOT EXISTS Top (
                                      brand VARCHAR(100) NOT NULL,
                                      price DECIMAL(10, 2) NOT NULL
 );
+

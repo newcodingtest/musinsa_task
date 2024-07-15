@@ -1,6 +1,10 @@
 package com.musinsa.product.service;
 
+import com.musinsa.common.exception.CategoryErrorCode;
+import com.musinsa.product.domain.Accessory;
 import com.musinsa.product.domain.Top;
+import com.musinsa.product.infrastructure.entity.AccessoryEntity;
+import com.musinsa.product.infrastructure.entity.SocksEntity;
 import com.musinsa.product.infrastructure.entity.TopEntity;
 import com.musinsa.product.infrastructure.jpa.TopRepository;
 import org.junit.jupiter.api.Test;
@@ -13,7 +17,8 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class TopServiceTests {
@@ -23,6 +28,9 @@ public class TopServiceTests {
 
     @InjectMocks
     private TopService topService;
+
+    @Mock
+    private TopEntity topEntity;
 
     @Test
     public void 상의_최저가격_브랜드와_가격을_조회할_수_있다(){
@@ -83,11 +91,60 @@ public class TopServiceTests {
                 .thenReturn(Optional.empty());
 
         //when
+        //then
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             topService.getTopMinimumPrice();
         });
 
+        assertEquals(CategoryErrorCode
+                        .CATEGORY_ITEM_NOT_FOUND
+                        .getMessage(),
+                exception.getMessage());
+    }
+
+    @Test
+    public void 새로운_상의를_생성_할_수_있다() {
+        //given
+        Top top = Top.builder()
+                .brand("상의")
+                .price(new BigDecimal(0))
+                .build();
+
+        //when
+        topService.createTop(top);
+
         //then
-        assertEquals("No accessories found", exception.getMessage());
+        verify(topRepository, times(1)).save(any(TopEntity.class));
+    }
+
+    @Test
+    public void 상의를_수정_할_수_있다(){
+        Long id = 1L;
+        //given
+        Top top = Top.builder()
+                .brand("상의")
+                .price(new BigDecimal(0))
+                .build();
+
+        when(topRepository.findById(id)).thenReturn(Optional.of(topEntity));
+
+        //when
+        topService.updateTop(id, top);
+
+        //then
+        verify(topRepository, times(1)).findById(id);
+        verify(topEntity, times(1)).change(top);
+    }
+
+    @Test
+    public void id로_상의를_삭제_할_수_있다(){
+        //given
+        Long id = 1L;
+
+        //when
+        topService.deleteTop(id);
+
+        //then
+        verify(topRepository, times(1)).deleteById(id);
     }
 }

@@ -1,5 +1,6 @@
 package com.musinsa.product.infrastructure.entity;
 
+import com.musinsa.product.domain.Socks;
 import com.musinsa.product.domain.Top;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -44,5 +45,10 @@ public class TopEntity {
                 .brand(brand)
                 .price(price)
                 .build();
+    }
+
+    public void change(Top top){
+        this.price = top.getPrice();
+        this.brand = top.getBrand();
     }
 }

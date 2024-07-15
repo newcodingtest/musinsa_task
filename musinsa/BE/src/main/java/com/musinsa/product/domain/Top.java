@@ -1,5 +1,8 @@
 package com.musinsa.product.domain;
 
+import com.musinsa.common.utils.BigDecimalUtils;
+import com.musinsa.product.api.request.ProductCreateRequest;
+import com.musinsa.product.api.request.ProductUpdateRequest;
 import com.musinsa.search.domain.Product;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +22,20 @@ public class Top {
                 .category("상의")
                 .brand(brand)
                 .price(price)
+                .build();
+    }
+
+    public static Top create(ProductCreateRequest productCreateRequest) {
+        return Top.builder()
+                .brand(productCreateRequest.getBrand())
+                .price(BigDecimalUtils.parseWithoutCommas(productCreateRequest.getPrice()))
+                .build();
+    }
+
+    public static Top update(ProductUpdateRequest productUpdateRequest) {
+        return Top.builder()
+                .brand(productUpdateRequest.getBrand())
+                .price(BigDecimalUtils.parseWithoutCommas(productUpdateRequest.getPrice()))
                 .build();
     }
 }
