@@ -38,30 +38,30 @@ public class ProductController {
         return "products/productList";
     }
     
-    /**
-     * 상품 상세 페이지
-     * 
-     * */
-
-    @GetMapping("products/{category}/{productId}")
-    public String updateItemForm(@PathVariable("category") String category,
-                                 @PathVariable("productId") Long productId, Model model) {
-        ProductResponse product = ProductResponse.fromModel(productCRUDFacade
-                                                                 .findOne(category, productId));
-        model.addAttribute("product", product);
-        return "products/updateProductForm";
-    }
-    
-    /**
-     * 브랜드 및 상품 수정 API + 페이지
-     * 
-     * */
-
-    @PutMapping("/products")
-    public String updateItem(
-                             @ModelAttribute("form") ProductUpdateRequest productUpdateRequest) {
-        productInventoryFacade.updateProduct(productUpdateRequest);
-
-        return "redirect:/products/productList";
-    }
+//    /**
+//     * 상품 상세 페이지
+//     *
+//     * */
+//
+//    @GetMapping("products/{category}/{productId}")
+//    public String updateItemForm(@PathVariable("category") String category,
+//                                 @PathVariable("productId") Long productId, Model model) {
+//        ProductResponse product = ProductResponse.fromModel(productCRUDFacade
+//                                                                 .findOne(category, productId));
+//        model.addAttribute("product", product);
+//        return "products/updateProductForm";
+//    }
+//
+//    /**
+//     * 브랜드 및 상품 수정 API + 페이지
+//     *
+//     * */
+//
+//    @PutMapping("/products")
+//    public String updateItem(
+//                             @ModelAttribute("form") ProductUpdateRequest productUpdateRequest) {
+//        productInventoryFacade.updateProduct(productUpdateRequest);
+//
+//        return "redirect:/products/productList";
+//    }
 }

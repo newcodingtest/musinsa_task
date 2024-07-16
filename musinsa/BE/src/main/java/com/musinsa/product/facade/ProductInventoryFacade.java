@@ -2,6 +2,7 @@ package com.musinsa.product.facade;
 
 import com.musinsa.common.utils.RequestUtils;
 import com.musinsa.product.api.request.ProductCreateRequest;
+import com.musinsa.product.api.request.ProductDeleteRequest;
 import com.musinsa.product.api.request.ProductUpdateRequest;
 import com.musinsa.product.domain.*;
 import com.musinsa.product.service.*;
@@ -96,7 +97,10 @@ public class ProductInventoryFacade {
      * */
 
     @CacheEvict(value = "productCache", allEntries = true)
-    public void deleteProduct(String category, Long id){
+    public void deleteProduct(ProductDeleteRequest productDeleteRequest){
+        String category = productDeleteRequest.getCategory();
+        Long id = productDeleteRequest.getId();
+
         if(category.equals(RequestUtils.TOP)){
             topService.deleteTop(id);
         } else if(category.equals(RequestUtils.OUTER)){

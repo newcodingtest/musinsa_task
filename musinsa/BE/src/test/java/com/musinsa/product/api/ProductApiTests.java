@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(ProductApi.class)
-public class SearchProductApiTests {
+public class ProductApiTests {
 
     @Autowired
     private MockMvc mockMvc;
@@ -72,11 +72,10 @@ public class SearchProductApiTests {
     void 상품을_생성_할_수_있다() throws Exception {
         // given
         Mockito.doNothing().when(productInventoryFacade).createProduct(Mockito.any(ProductCreateRequest.class));
-
         // when
         mockMvc.perform(post("/api/products")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"brand\":\"C\", \"category\": \"top\", \"price\":10000 }"))
+                        .content("{\"brand\":\"C\", \"category\": \"상의\", \"price\":10000 }"))
                 // then
                 .andExpect(status().isCreated());
 
@@ -94,7 +93,7 @@ public class SearchProductApiTests {
         // when
         mockMvc.perform(delete("/api/products")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"id\":1, \"category\": \"top\"}"))
+                        .content("{\"id\":1, \"category\": \"상의\"}"))
                 // then
                 .andExpect(status().isOk());
 
@@ -112,7 +111,7 @@ public class SearchProductApiTests {
         // when
         mockMvc.perform(put("/api/products")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"id\":1, \"category\":\"top\", \"brand\":\"A\", \"price\":1500}"))
+                .content("{\"id\":1, \"category\":\"상의\", \"brand\":\"A\", \"price\":1500}"))
                 // then
                 .andExpect(status().isOk());
 

@@ -2,6 +2,7 @@ package com.musinsa.search.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.musinsa.common.utils.RequestUtils;
 import com.musinsa.search.api.response.BrandLowestPriceResponse;
 import com.musinsa.search.api.response.CategoryLowestPriceResponse;
 import com.musinsa.search.api.response.CategoryOneLowestPriceResponse;
@@ -374,7 +375,7 @@ public class PricingServiceTests {
         List<String> brand = List.of("A","B","C","D","E","F","G","H","I");
 
         for (int i=0; i<brand.size(); i++){
-            if (category.equals("hat")){
+            if (category.equals(RequestUtils.HAT)){
                 Hat hatMin = Hat.builder()
                         .brand(brand.get(i))
                         .price(new BigDecimal(1000+i))
@@ -389,7 +390,7 @@ public class PricingServiceTests {
                         .thenReturn(hatMin);
                 when(hatService.getHatMaximumPrice())
                         .thenReturn(hatMax);
-            } else if(category.equals("top")){
+            } else if(category.equals(RequestUtils.TOP)){
                 Top topMin = Top.builder()
                         .brand(brand.get(i))
                         .price(new BigDecimal(1000+i))
@@ -404,7 +405,7 @@ public class PricingServiceTests {
                         .thenReturn(topMin);
                 when(topService.getTopMaximumPrice())
                         .thenReturn(topMax);
-            } else if(category.equals("outer")){
+            } else if(category.equals(RequestUtils.OUTER)){
                 Outer outerMin = Outer.builder()
                         .brand(brand.get(i))
                         .price(new BigDecimal(1000+i))
@@ -419,7 +420,7 @@ public class PricingServiceTests {
                         .thenReturn(outerMin);
                 when(outerService.getOuterMaximumPrice())
                         .thenReturn(outerMax);
-            } else if(category.equals("bottom")){
+            } else if(category.equals(RequestUtils.BOTTOM)){
                 Bottom bottomMin = Bottom.builder()
                         .brand(brand.get(i))
                         .price(new BigDecimal(1000+i))
@@ -435,7 +436,7 @@ public class PricingServiceTests {
 
                 when(bottomService.getBottomMaximumPrice())
                         .thenReturn(bottomMax);
-            } else if(category.equals("socks")){
+            } else if(category.equals(RequestUtils.SOCKS)){
                 Socks socksMin = Socks.builder()
                         .brand(brand.get(i))
                         .price(new BigDecimal(1000+i))
@@ -450,7 +451,7 @@ public class PricingServiceTests {
                         .thenReturn(socksMin);
                 when(socksService.getSocksMaximumPrice())
                         .thenReturn(socksMax);
-            } else if(category.equals("sneakers")){
+            } else if(category.equals(RequestUtils.SNEAKERS)){
                 Sneakers sneakersMin = Sneakers.builder()
                         .brand(brand.get(i))
                         .price(new BigDecimal(1000+i))
@@ -464,7 +465,7 @@ public class PricingServiceTests {
                         .thenReturn(sneakersMin);
                 when(sneakersService.getSneakersMaximumPrice())
                         .thenReturn(sneakersMax);
-            } else if(category.equals("accessory")){
+            } else if(category.equals(RequestUtils.BAG)){
                 Accessory accessoryMin = Accessory.builder()
                         .brand(brand.get(i))
                         .price(new BigDecimal(1000+i))
@@ -479,7 +480,7 @@ public class PricingServiceTests {
                         .thenReturn(accessoryMin);
                 when(accessoryService.getAccessoryMaximumPrice())
                         .thenReturn(accessoryMax);
-            } else if(category.equals("bag")){
+            } else if(category.equals(RequestUtils.BAG)){
                 Bag bagMin = Bag.builder()
                         .brand(brand.get(i))
                         .price(new BigDecimal(1000+i))
@@ -502,7 +503,7 @@ public class PricingServiceTests {
     @Test
     public void 카테고리_이름으로_최저_최고가격을_조회_할_수_있다() {
         //given
-        String category = "top";
+        String category = RequestUtils.TOP;
         카테고리_최저최고_상품_세팅(category);
         
         //when
@@ -511,7 +512,7 @@ public class PricingServiceTests {
 
 
         //then
-        assertEquals("상의", getLowHigtestBrandPrice.getCategory());
+        assertEquals(category, getLowHigtestBrandPrice.getCategory());
         assertEquals("I", getLowHigtestBrandPrice
                 .getLowest()
                 .getBrand());
