@@ -49,8 +49,4 @@ public class SearchApi {
                 HttpStatus.FOUND);
     }
 
-    @GetMapping("/test")
-    public String test(){
-        return "itemDtl ";
-    }
 }

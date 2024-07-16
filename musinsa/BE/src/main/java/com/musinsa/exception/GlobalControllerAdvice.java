@@ -24,7 +24,7 @@ public class GlobalControllerAdvice {
     private static final String RESPONSE_DELIMITER = ". ";
 
     @ExceptionHandler(GlobalException.class)
-    public ResponseEntity<?> handleGlobalException(final GlobalException e, final HttpServletRequest request)
+    public ResponseEntity<ErrorCode> handleGlobalException(final GlobalException e, final HttpServletRequest request)
             throws JsonProcessingException {
         final String exceptionSource = getExceptionSource(e);
         log.warn("source = {} , {} = {} code = {} message = {} info = {}", exceptionSource, request.getMethod(),
@@ -44,12 +44,13 @@ public class GlobalControllerAdvice {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException e) {
+    public ResponseEntity<ErrorCode> handleValidationExceptions(MethodArgumentNotValidException e) {
         String errorMessage = e.getBindingResult().getAllErrors().stream()
                 .map(error -> error.getDefaultMessage())
                 .collect(Collectors.joining(", "));
+        final ErrorCode<?> errorCode = new ErrorCode<>(CommonErrorCode.REQUEST_VALID_ERROR_CODE.getCode(), errorMessage);
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(errorMessage);
+                .body(errorCode);
     }
 }

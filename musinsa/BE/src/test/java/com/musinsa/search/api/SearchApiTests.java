@@ -346,6 +346,7 @@ public class SearchApiTests {
     @Test
     public void testGetLowestPriceBrandProductByCategory() throws Exception {
         //given
+        String category = "top";
         setup3();
         String expectedJson = "{ " +
                 "\"카테고리\": \"상의\", " +
@@ -353,8 +354,7 @@ public class SearchApiTests {
                 "\"최고가\": { \"브랜드\": \"I\", \"가격\": \"11,400\" } }";
 
         //when then
-        String category = "top";
-        mockMvc.perform(get("/api/cheapest-hightest")
+        mockMvc.perform(get("/api/cheapest-hightest/{category}", category)
                         .param("category", category)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isFound())

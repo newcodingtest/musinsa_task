@@ -27,7 +27,7 @@ public class ProductInventoryFacade {
      * 브랜드 및 상품을 추가
      * */
     //@CacheEvict(value = "productCache", key = "'lowestBrandProduct'")
-    public void addProduct(ProductCreateRequest productCreateRequest){
+    public void createProduct(ProductCreateRequest productCreateRequest){
         addProductExcute(productCreateRequest);
     }
 
@@ -65,29 +65,46 @@ public class ProductInventoryFacade {
      * */
     //@Cacheable(value = "productCache", key = "'category'")
     public void updateProduct(ProductUpdateRequest productUpdateRequest){
-
-        updateProductExcute(productUpdateRequest);
+        String category = productUpdateRequest.getCategory();
+        Long id = productUpdateRequest.getId();
+        if(category.equals(RequestUtils.TOP)){
+            topService.updateTop(id, Top.update(productUpdateRequest));
+        } else if(category.equals(RequestUtils.OUTER)){
+            outerService.updateOuter(id, Outer.update(productUpdateRequest));
+        } else if(category.equals(RequestUtils.BOTTOM)){
+            bottomService.updateBottom(id, Bottom.update(productUpdateRequest));
+        } else if(category.equals(RequestUtils.SNEAKERS)){
+            sneakersService.updateSneakers(id, Sneakers.update(productUpdateRequest));
+        } else if(category.equals(RequestUtils.BAG)){
+            bagService.updateBag(id, Bag.update(productUpdateRequest));
+        } else if(category.equals(RequestUtils.HAT)){
+            hatService.updateHat(id, Hat.update(productUpdateRequest));
+        } else if(category.equals(RequestUtils.SOCKS)){
+            socksService.updateSocks(id, Socks.update(productUpdateRequest));
+        } else if(category.equals(RequestUtils.ACCESSORY)){
+            accessoryService.updateAccssory(id, Accessory.update(productUpdateRequest));
+        }
     }
 
     private void updateProductExcute(ProductUpdateRequest productUpdateRequest) {
         String category = productUpdateRequest.getCategory();
         Long id = productUpdateRequest.getId();
         if(category.equals(RequestUtils.TOP)){
-            topService.updateTop(id,Top.update(productUpdateRequest));
+            topService.updateTop(id, Top.update(productUpdateRequest));
         } else if(category.equals(RequestUtils.OUTER)){
-            outerService.createOuter(Outer.update(productUpdateRequest));
+            outerService.updateOuter(id, Outer.update(productUpdateRequest));
         } else if(category.equals(RequestUtils.BOTTOM)){
-            bottomService.createBottom(Bottom.update(productUpdateRequest));
+            bottomService.updateBottom(id, Bottom.update(productUpdateRequest));
         } else if(category.equals(RequestUtils.SNEAKERS)){
-            sneakersService.createSneakers(Sneakers.update(productUpdateRequest));
+            sneakersService.updateSneakers(id, Sneakers.update(productUpdateRequest));
         } else if(category.equals(RequestUtils.BAG)){
-            bagService.createBag(Bag.update(productUpdateRequest));
+            bagService.updateBag(id, Bag.update(productUpdateRequest));
         } else if(category.equals(RequestUtils.HAT)){
-            hatService.createHat(Hat.update(productUpdateRequest));
+            hatService.updateHat(id, Hat.update(productUpdateRequest));
         } else if(category.equals(RequestUtils.SOCKS)){
-            socksService.createSocks(Socks.update(productUpdateRequest));
+            socksService.updateSocks(id, Socks.update(productUpdateRequest));
         } else if(category.equals(RequestUtils.ACCESSORY)){
-            accessoryService.createAccssory(Accessory.update(productUpdateRequest));
+            accessoryService.updateAccssory(id, Accessory.update(productUpdateRequest));
         }
     }
 

@@ -19,14 +19,22 @@ public class ProductApi {
 
     private final ProductInventoryFacade productInventoryFacade;
 
+    /**
+     * 브랜드 및 상품 추가 API
+     * 
+     * */
     @PostMapping
     public ResponseEntity<Void> create(@Valid @RequestBody ProductCreateRequest productCreateRequest) {
-        productInventoryFacade.addProduct(productCreateRequest);
+        productInventoryFacade.createProduct(productCreateRequest);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .build();
     }
 
+    /**
+     * 브랜드 및 상품 삭제 API
+     *
+     * */
     @DeleteMapping
     public ResponseEntity<Void> delete(@Valid @RequestBody ProductDeleteRequest productDeleteRequest) {
         productInventoryFacade.deleteProduct(productDeleteRequest);
@@ -35,6 +43,10 @@ public class ProductApi {
                 .build();
     }
 
+    /**
+     * 브랜드 및 상품 수정 API
+     *
+     * */
     @PutMapping
     public ResponseEntity<Void> update(@Valid @RequestBody ProductUpdateRequest productUpdateRequest) {
         productInventoryFacade.updateProduct(productUpdateRequest);
