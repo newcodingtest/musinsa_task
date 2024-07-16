@@ -167,9 +167,9 @@ public class PricingService {
         }
 
         else if (category.equals(RequestUtils.BAG)){
-            minimum = bottomService.getBottomMinimumPrice()
+            minimum = bagService.getBagMinimumPrice()
                     .toModel();
-            maximum = bottomService.getBottomMaximumPrice()
+            maximum = bagService.getBagMaximumPrice()
                     .toModel();
         }
 
