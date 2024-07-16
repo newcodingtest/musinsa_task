@@ -2,7 +2,6 @@ package com.musinsa.product.facade;
 
 import com.musinsa.common.utils.RequestUtils;
 import com.musinsa.product.api.request.ProductCreateRequest;
-import com.musinsa.product.api.request.ProductDeleteRequest;
 import com.musinsa.product.api.request.ProductUpdateRequest;
 import com.musinsa.product.domain.*;
 import com.musinsa.product.service.*;
@@ -10,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -63,15 +63,12 @@ public class ProductInventoryFacade {
     /**
      * 브랜드 및 상품을 업데이트
      * */
+    @Transactional
     @Cacheable(value = "productCache", key = "'category'")
     public void updateProduct(ProductUpdateRequest productUpdateRequest){
-        updateProductExcute(productUpdateRequest);
-    }
-
-    //@CacheEvict(value = "productCache", allEntries = true)
-    private void updateProductExcute(ProductUpdateRequest productUpdateRequest) {
         String category = productUpdateRequest.getCategory();
         Long id = productUpdateRequest.getId();
+
         if(category.equals(RequestUtils.TOP)){
             topService.updateTop(id, Top.update(productUpdateRequest));
         } else if(category.equals(RequestUtils.OUTER)){
@@ -91,34 +88,32 @@ public class ProductInventoryFacade {
         }
     }
 
+    //@CacheEvict(value = "productCache", allEntries = true)
+
+
     /**
      * 브랜드 및 상품을 삭제
      * */
 
     @CacheEvict(value = "productCache", allEntries = true)
-    public void deleteProduct(ProductDeleteRequest productDeleteRequest){
-        deleteProductExcute(productDeleteRequest);
-    }
-
-    private void deleteProductExcute(ProductDeleteRequest productDeleteRequest) {
-        String category = productDeleteRequest.getCategory();
-        Long deleteId = productDeleteRequest.getId();
+    public void deleteProduct(String category, Long id){
         if(category.equals(RequestUtils.TOP)){
-            topService.deleteTop(deleteId);
+            topService.deleteTop(id);
         } else if(category.equals(RequestUtils.OUTER)){
-            outerService.deleteOuter(deleteId);
+            outerService.deleteOuter(id);
         } else if(category.equals(RequestUtils.BOTTOM)){
-            bottomService.deleteBottom(deleteId);
+            bottomService.deleteBottom(id);
         } else if(category.equals(RequestUtils.SNEAKERS)){
-            sneakersService.deleteSneakers(deleteId);
+            sneakersService.deleteSneakers(id);
         } else if(category.equals(RequestUtils.BAG)){
-            bagService.deleteBag(deleteId);
+            bagService.deleteBag(id);
         } else if(category.equals(RequestUtils.HAT)){
-            hatService.deleteHat(deleteId);
+            hatService.deleteHat(id);
         } else if(category.equals(RequestUtils.SOCKS)){
-            socksService.deleteSocks(deleteId);
+            socksService.deleteSocks(id);
         } else if(category.equals(RequestUtils.ACCESSORY)){
-            accessoryService.deleteAccssory(deleteId);
+            accessoryService.deleteAccssory(id);
         }
     }
+
 }

@@ -45,7 +45,7 @@ public class TopService {
                 .fromModel(top));
     }
 
-    @Transactional
+
     public void updateTop(Long id, Top top){
         TopEntity topEntity = topRepository.findById(id).get();
         topEntity.change(top);

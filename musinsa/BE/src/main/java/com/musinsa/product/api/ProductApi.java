@@ -1,7 +1,6 @@
 package com.musinsa.product.api;
 
 import com.musinsa.product.api.request.ProductCreateRequest;
-import com.musinsa.product.api.request.ProductDeleteRequest;
 import com.musinsa.product.api.request.ProductUpdateRequest;
 import com.musinsa.product.facade.ProductInventoryFacade;
 import jakarta.validation.Valid;
@@ -35,9 +34,10 @@ public class ProductApi {
      * 브랜드 및 상품 삭제 API
      *
      * */
-    @DeleteMapping
-    public ResponseEntity<Void> delete(@Valid @RequestBody ProductDeleteRequest productDeleteRequest) {
-        productInventoryFacade.deleteProduct(productDeleteRequest);
+    @DeleteMapping("/{category}/{productId}")
+    public ResponseEntity<Void> delete(@PathVariable("category") String category,
+                                       @PathVariable("productId") Long productId) {
+        productInventoryFacade.deleteProduct(category, productId);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .build();
@@ -47,7 +47,7 @@ public class ProductApi {
      * 브랜드 및 상품 수정 API
      *
      * */
-    @PutMapping
+    @PutMapping("/{category}/{productId}")
     public ResponseEntity<Void> update(@Valid @RequestBody ProductUpdateRequest productUpdateRequest) {
         productInventoryFacade.updateProduct(productUpdateRequest);
         return ResponseEntity

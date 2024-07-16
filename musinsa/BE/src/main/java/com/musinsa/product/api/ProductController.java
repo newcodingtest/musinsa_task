@@ -3,6 +3,7 @@ package com.musinsa.product.api;
 import com.musinsa.product.api.request.ProductUpdateRequest;
 import com.musinsa.product.api.response.ProductResponse;
 import com.musinsa.product.facade.ProductCRUDFacade;
+import com.musinsa.product.facade.ProductInventoryFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,13 @@ import java.util.stream.Collectors;
 public class ProductController {
 
     private final ProductCRUDFacade productCRUDFacade;
+
+    private final ProductInventoryFacade productInventoryFacade;
+    
+    /**
+     * 상품 조회 리스트 페이지
+     * 
+     * */
     @GetMapping("/products")
     public String list(Model model) {
         List<ProductResponse> products = productCRUDFacade.findItems()
@@ -29,6 +37,11 @@ public class ProductController {
         model.addAttribute("products", products);
         return "products/productList";
     }
+    
+    /**
+     * 상품 상세 페이지
+     * 
+     * */
 
     @GetMapping("products/{category}/{productId}")
     public String updateItemForm(@PathVariable("category") String category,
@@ -38,14 +51,17 @@ public class ProductController {
         model.addAttribute("product", product);
         return "products/updateProductForm";
     }
+    
+    /**
+     * 브랜드 및 상품 수정 API + 페이지
+     * 
+     * */
 
-    @PutMapping("products/{category}/{productId}")
-    public String updateItem(@PathVariable("category") String category,
-                             @PathVariable("productId") Long productId,
-                             @ModelAttribute("form") ProductUpdateRequest form) {
+    @PutMapping("/products")
+    public String updateItem(
+                             @ModelAttribute("form") ProductUpdateRequest productUpdateRequest) {
+        productInventoryFacade.updateProduct(productUpdateRequest);
 
-        itemService.updateItem(itemId, form.getName(), form.getPrice(), form.getStockQuantity());
-
-        return "redirect:/products";
+        return "redirect:/products/productList";
     }
 }
