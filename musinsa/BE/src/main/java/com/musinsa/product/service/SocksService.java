@@ -2,6 +2,7 @@ package com.musinsa.product.service;
 
 import com.musinsa.product.domain.Accessory;
 import com.musinsa.product.domain.Socks;
+import com.musinsa.product.domain.Top;
 import com.musinsa.product.infrastructure.entity.AccessoryEntity;
 import com.musinsa.product.infrastructure.entity.SocksEntity;
 import com.musinsa.product.infrastructure.jpa.*;
@@ -9,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.musinsa.common.exception.CategoryException;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.musinsa.common.exception.CategoryErrorCode.CATEGORY_BRAND_ITEM_NOT_FOUND;
 import static com.musinsa.common.exception.CategoryErrorCode.CATEGORY_ITEM_NOT_FOUND;
@@ -50,5 +54,15 @@ public class SocksService {
 
     public void deleteSocks(Long id){
         socksRepository.deleteById(id);
+    }
+
+    public List<Socks> getAll(){
+        return socksRepository.findAll()
+                .stream().map(SocksEntity::toModel)
+                .collect(Collectors.toList());
+    }
+
+    public Socks findOne(Long id) {
+        return socksRepository.findById(id).get().toModel();
     }
 }

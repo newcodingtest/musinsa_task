@@ -3,7 +3,7 @@ package com.musinsa.search.api;
 import com.musinsa.search.api.response.BrandLowestPriceResponse;
 import com.musinsa.search.api.response.CategoryLowestPriceResponse;
 import com.musinsa.search.api.response.CategoryOneLowestPriceResponse;
-import com.musinsa.search.domain.Product;
+import com.musinsa.search.domain.SearchProduct;
 import com.musinsa.search.service.PricingService;
 import com.musinsa.common.utils.BigDecimalUtils;
 import org.junit.jupiter.api.DisplayName;
@@ -39,43 +39,43 @@ public class SearchApiTests {
 
     public void setup1() {
         // Mock 데이터 설정
-        List<Product> mockProducts = List.of(
-                Product.builder()
+        List<SearchProduct> mockSearchProducts = List.of(
+                SearchProduct.builder()
                         .category("모자")
                         .brand("D")
                         .price(new BigDecimal("1500.00"))
                         .build(),
-                Product.builder()
+                SearchProduct.builder()
                         .category("상의")
                         .brand("C")
                         .price(new BigDecimal("10000.00"))
                         .build(),
-                Product.builder()
+                SearchProduct.builder()
                         .category("아우터")
                         .brand("E")
                         .price(new BigDecimal("5000.00"))
                         .build(),
-                Product.builder()
+                SearchProduct.builder()
                         .category("바지")
                         .brand("D")
                         .price(new BigDecimal("3000.00"))
                         .build(),
-                Product.builder()
+                SearchProduct.builder()
                         .category("스니커즈")
                         .brand("G")
                         .price(new BigDecimal("9000.00"))
                         .build(),
-                Product.builder()
+                SearchProduct.builder()
                         .category("가방")
                         .brand("A")
                         .price(new BigDecimal("2000.00"))
                         .build(),
-                Product.builder()
+                SearchProduct.builder()
                         .category("양말")
                         .brand("I")
                         .price(new BigDecimal("1700.00"))
                         .build(),
-                Product.builder()
+                SearchProduct.builder()
                         .category("액세서리")
                         .brand("F")
                         .price(new BigDecimal("1900.00"))
@@ -84,11 +84,11 @@ public class SearchApiTests {
 
 
         categoryLowestPriceResponse = CategoryLowestPriceResponse.builder()
-                .products(CategoryLowestPriceResponse.fromModel(mockProducts))
+                .products(CategoryLowestPriceResponse.fromModel(mockSearchProducts))
                 .totalPrice(BigDecimalUtils.formatWithCommas(new BigDecimal("34100.00")))
                 .build();
 
-        List<BrandLowestPriceResponse.CategoryPrice> categoryPrices = mockProducts.stream()
+        List<BrandLowestPriceResponse.CategoryPrice> categoryPrices = mockSearchProducts.stream()
                 .map(BrandLowestPriceResponse.CategoryPrice::fromModel)
                 .collect(Collectors.toList());
 
@@ -120,43 +120,43 @@ public class SearchApiTests {
 
     public void setup2() {
         // Mock 데이터 설정
-        List<Product> mockProducts = List.of(
-                Product.builder()
+        List<SearchProduct> mockSearchProducts = List.of(
+                SearchProduct.builder()
                         .category("모자")
                         .brand("D")
                         .price(new BigDecimal("1500.00"))
                         .build(),
-                Product.builder()
+                SearchProduct.builder()
                         .category("상의")
                         .brand("C")
                         .price(new BigDecimal("10100.00"))
                         .build(),
-                Product.builder()
+                SearchProduct.builder()
                         .category("아우터")
                         .brand("E")
                         .price(new BigDecimal("5100.00"))
                         .build(),
-                Product.builder()
+                SearchProduct.builder()
                         .category("바지")
                         .brand("D")
                         .price(new BigDecimal("3000.00"))
                         .build(),
-                Product.builder()
+                SearchProduct.builder()
                         .category("양말")
                         .brand("I")
                         .price(new BigDecimal("2400.00"))
                         .build(),
-                Product.builder()
+                SearchProduct.builder()
                         .category("스니커즈")
                         .brand("G")
                         .price(new BigDecimal("9500.00"))
                         .build(),
-                Product.builder()
+                SearchProduct.builder()
                         .category("액세서리")
                         .brand("F")
                         .price(new BigDecimal("2000.00"))
                         .build(),
-                Product.builder()
+                SearchProduct.builder()
                         .category("가방")
                         .brand("A")
                         .price(new BigDecimal("2500.00"))
@@ -164,7 +164,7 @@ public class SearchApiTests {
         );
 
         categoryLowestPriceResponse = CategoryLowestPriceResponse.builder()
-                .products(CategoryLowestPriceResponse.fromModel(mockProducts))
+                .products(CategoryLowestPriceResponse.fromModel(mockSearchProducts))
                 .totalPrice(BigDecimalUtils.formatWithCommas(new BigDecimal("36100.00")))
                 .build();
 
@@ -207,43 +207,43 @@ public class SearchApiTests {
 
     public void setup3() {
         // Mock 데이터 설정
-        List<Product> mockProducts = List.of(
-                Product.builder()
+        List<SearchProduct> mockSearchProducts = List.of(
+                SearchProduct.builder()
                         .category("모자")
                         .brand("D")
                         .price(new BigDecimal("1500.00"))
                         .build(),
-                Product.builder()
+                SearchProduct.builder()
                         .category("상의")
                         .brand("C")
                         .price(new BigDecimal("10000.00"))
                         .build(),
-                Product.builder()
+                SearchProduct.builder()
                         .category("아우터")
                         .brand("E")
                         .price(new BigDecimal("5100.00"))
                         .build(),
-                Product.builder()
+                SearchProduct.builder()
                         .category("바지")
                         .brand("D")
                         .price(new BigDecimal("3000.00"))
                         .build(),
-                Product.builder()
+                SearchProduct.builder()
                         .category("양말")
                         .brand("I")
                         .price(new BigDecimal("2400.00"))
                         .build(),
-                Product.builder()
+                SearchProduct.builder()
                         .category("스니커즈")
                         .brand("G")
                         .price(new BigDecimal("9500.00"))
                         .build(),
-                Product.builder()
+                SearchProduct.builder()
                         .category("액세서리")
                         .brand("F")
                         .price(new BigDecimal("2000.00"))
                         .build(),
-                Product.builder()
+                SearchProduct.builder()
                         .category("가방")
                         .brand("A")
                         .price(new BigDecimal("2500.00"))
@@ -251,7 +251,7 @@ public class SearchApiTests {
         );
 
         categoryLowestPriceResponse = CategoryLowestPriceResponse.builder()
-                .products(CategoryLowestPriceResponse.fromModel(mockProducts))
+                .products(CategoryLowestPriceResponse.fromModel(mockSearchProducts))
                 .totalPrice(BigDecimalUtils.formatWithCommas(new BigDecimal("36100.00")))
                 .build();
 

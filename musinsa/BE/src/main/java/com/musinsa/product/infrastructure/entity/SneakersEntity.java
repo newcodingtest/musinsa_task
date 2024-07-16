@@ -40,6 +40,7 @@ public class SneakersEntity {
 
     public Sneakers toModel(){
         return Sneakers.builder()
+                .id(id)
                 .brand(brand)
                 .price(price)
                 .build();

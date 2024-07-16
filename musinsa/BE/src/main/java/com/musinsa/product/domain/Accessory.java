@@ -1,13 +1,11 @@
 package com.musinsa.product.domain;
 
-import com.musinsa.common.utils.BigDecimalUtils;
 import com.musinsa.product.api.request.ProductCreateRequest;
 import com.musinsa.product.api.request.ProductUpdateRequest;
-import com.musinsa.search.domain.Product;
+import com.musinsa.search.domain.SearchProduct;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
 
 
 @AllArgsConstructor
@@ -15,11 +13,12 @@ import java.text.ParseException;
 @Builder
 @Getter
 public class Accessory {
+    public Long id;
     public String brand;
     public BigDecimal price;
 
-    public Product toModel(){
-        return Product.builder()
+    public SearchProduct toModel(){
+        return SearchProduct.builder()
                 .category("액세서리")
                 .brand(brand)
                 .price(price)

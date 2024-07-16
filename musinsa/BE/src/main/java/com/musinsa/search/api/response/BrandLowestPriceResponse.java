@@ -1,7 +1,7 @@
 package com.musinsa.search.api.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.musinsa.search.domain.Product;
+import com.musinsa.search.domain.SearchProduct;
 import com.musinsa.common.utils.BigDecimalUtils;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,11 +46,11 @@ public class BrandLowestPriceResponse {
         private String price;
 
 
-        public static CategoryPrice fromModel(Product product){
+        public static CategoryPrice fromModel(SearchProduct searchProduct){
             return CategoryPrice
                     .builder()
-                    .category(product.getCategory())
-                    .price(BigDecimalUtils.formatWithCommas(product.getPrice()))
+                    .category(searchProduct.getCategory())
+                    .price(BigDecimalUtils.formatWithCommas(searchProduct.getPrice()))
                     .build();
         }
     }

@@ -4,7 +4,7 @@ import com.musinsa.common.exception.CategoryException;
 import com.musinsa.search.api.response.BrandLowestPriceResponse;
 import com.musinsa.search.api.response.CategoryLowestPriceResponse;
 import com.musinsa.search.api.response.CategoryOneLowestPriceResponse;
-import com.musinsa.search.domain.Product;
+import com.musinsa.search.domain.SearchProduct;
 import com.musinsa.common.utils.BigDecimalUtils;
 import com.musinsa.common.utils.RequestUtils;
 import com.musinsa.product.domain.*;
@@ -52,7 +52,7 @@ public class PricingService {
         Socks socks = socksService.getSocksMinimumPrice();
         Accessory accessory = accessoryService.getAccessoryMinimumPrice();
 
-        List<Product> products = Arrays.asList(
+        List<SearchProduct> searchProducts = Arrays.asList(
                 hat.toModel(),
                 top.toModel(),
                 outer.toModel(),
@@ -63,12 +63,12 @@ public class PricingService {
                 accessory.toModel()
         );
 
-        totalPrice = products.stream()
-                .map(Product::getPrice)
+        totalPrice = searchProducts.stream()
+                .map(SearchProduct::getPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         return CategoryLowestPriceResponse.builder()
-                .products(CategoryLowestPriceResponse.fromModel(products))
+                .products(CategoryLowestPriceResponse.fromModel(searchProducts))
                 .totalPrice(BigDecimalUtils.formatWithCommas(totalPrice))
                 .build();
     }
@@ -81,46 +81,46 @@ public class PricingService {
     @Cacheable(value = "productCache", key = "'lowestBrandProduct'")
     public BrandLowestPriceResponse getLowestBrandProduct(){
         //브랜드 별 최저가 상품 조회
-        List<Product> lowestProductA = getLowestProductsByBrand("A");
-        List<Product> lowestProductB = getLowestProductsByBrand("B");
-        List<Product> lowestProductC = getLowestProductsByBrand("C");
-        List<Product> lowestProductD = getLowestProductsByBrand("D");
-        List<Product> lowestProductE = getLowestProductsByBrand("E");
-        List<Product> lowestProductF = getLowestProductsByBrand("F");
-        List<Product> lowestProductG = getLowestProductsByBrand("G");
-        List<Product> lowestProductH = getLowestProductsByBrand("H");
-        List<Product> lowestProductI = getLowestProductsByBrand("I");
+        List<SearchProduct> lowestSearchProductA = getLowestProductsByBrand("A");
+        List<SearchProduct> lowestSearchProductB = getLowestProductsByBrand("B");
+        List<SearchProduct> lowestSearchProductC = getLowestProductsByBrand("C");
+        List<SearchProduct> lowestSearchProductD = getLowestProductsByBrand("D");
+        List<SearchProduct> lowestSearchProductE = getLowestProductsByBrand("E");
+        List<SearchProduct> lowestSearchProductF = getLowestProductsByBrand("F");
+        List<SearchProduct> lowestSearchProductG = getLowestProductsByBrand("G");
+        List<SearchProduct> lowestSearchProductH = getLowestProductsByBrand("H");
+        List<SearchProduct> lowestSearchProductI = getLowestProductsByBrand("I");
 
-        List<List<Product>> allProductLists = Arrays.asList(
-                lowestProductA,
-                lowestProductB,
-                lowestProductC,
-                lowestProductD,
-                lowestProductE,
-                lowestProductF,
-                lowestProductG,
-                lowestProductH,
-                lowestProductI
+        List<List<SearchProduct>> allProductLists = Arrays.asList(
+                lowestSearchProductA,
+                lowestSearchProductB,
+                lowestSearchProductC,
+                lowestSearchProductD,
+                lowestSearchProductE,
+                lowestSearchProductF,
+                lowestSearchProductG,
+                lowestSearchProductH,
+                lowestSearchProductI
         );
 
         //최저가 브랜드들 중에서 가장 최저가인 브랜드 상품 조회
-        List<Product> cheapestProducts = allProductLists.stream()
+        List<SearchProduct> cheapestSearchProducts = allProductLists.stream()
                 .min(Comparator.comparing(this::calculateTotalPrice))
                 .orElseThrow(() -> new RuntimeException("No products found"));
 
-        List<BrandLowestPriceResponse.CategoryPrice> categoryPrices = cheapestProducts.stream()
+        List<BrandLowestPriceResponse.CategoryPrice> categoryPrices = cheapestSearchProducts.stream()
                 .map(BrandLowestPriceResponse.CategoryPrice::fromModel)
                 .collect(Collectors.toList());
 
         //최저가
         BrandLowestPriceResponse.LowestProduct lowestProduct = BrandLowestPriceResponse.LowestProduct
                 .builder()
-                .brand(cheapestProducts.get(0).getBrand())
+                .brand(cheapestSearchProducts.get(0).getBrand())
                 .categoryPrices(categoryPrices)
                 .build();
 
         //총액
-        BigDecimal totalPrice = calculateTotalPrice(cheapestProducts);
+        BigDecimal totalPrice = calculateTotalPrice(cheapestSearchProducts);
 
         return BrandLowestPriceResponse.builder()
                 .lowestProducts(lowestProduct)
@@ -135,8 +135,8 @@ public class PricingService {
      * */
     @Cacheable(value = "productCache", key = "'category'")
     public CategoryOneLowestPriceResponse getLowHigtestBrandPrice(String category){
-        Product minimum = null;
-        Product maximum = null;
+        SearchProduct minimum = null;
+        SearchProduct maximum = null;
 
         if (category.equals(RequestUtils.TOP)){
             minimum = topService.getTopMinimumPrice()
@@ -208,7 +208,7 @@ public class PricingService {
      * 브랜드 별 최저가격 상품 조회
      *
      * */
-    private List<Product> getLowestProductsByBrand(String brand){
+    private List<SearchProduct> getLowestProductsByBrand(String brand){
         BigDecimal totalPrice = BigDecimal.ZERO;
 
         Hat hat = hatService.getHatMinimumPriceByBrand(brand);
@@ -220,7 +220,7 @@ public class PricingService {
         Accessory accessory = accessoryService.getAccessoryMinimumPriceByBrand(brand);
         Bag bag = bagService.getBagMinimumPriceByBrand(brand);
 
-        List<Product> products = Arrays.asList(
+        List<SearchProduct> searchProducts = Arrays.asList(
                 hat.toModel(),
                 top.toModel(),
                 outer.toModel(),
@@ -230,16 +230,16 @@ public class PricingService {
                 accessory.toModel(),
                 bag.toModel()
         );
-        return products;
+        return searchProducts;
     }
 
 
     /**
      * 주어진 카테고리의 총액 구하기
      * */
-    private BigDecimal calculateTotalPrice(List<Product> products) {
-        BigDecimal totalPrice =  products.stream()
-                .map(Product::getPrice)
+    private BigDecimal calculateTotalPrice(List<SearchProduct> searchProducts) {
+        BigDecimal totalPrice =  searchProducts.stream()
+                .map(SearchProduct::getPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         return totalPrice;

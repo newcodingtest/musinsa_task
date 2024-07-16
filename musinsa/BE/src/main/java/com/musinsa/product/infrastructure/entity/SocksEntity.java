@@ -41,6 +41,7 @@ public class SocksEntity {
 
     public Socks toModel(){
         return Socks.builder()
+                .id(id)
                 .brand(brand)
                 .price(price)
                 .build();

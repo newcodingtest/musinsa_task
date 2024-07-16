@@ -40,6 +40,7 @@ public class HatEntity {
 
     public Hat toModel(){
         return Hat.builder()
+                .id(id)
                 .brand(brand)
                 .price(price)
                 .build();

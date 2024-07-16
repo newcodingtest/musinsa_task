@@ -41,6 +41,7 @@ public class BottomEntity{
 
     public Bottom toModel(){
         return Bottom.builder()
+                .id(id)
                 .brand(brand)
                 .price(price)
                 .build();

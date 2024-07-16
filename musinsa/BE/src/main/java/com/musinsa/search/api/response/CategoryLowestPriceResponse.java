@@ -1,7 +1,7 @@
 package com.musinsa.search.api.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.musinsa.search.domain.Product;
+import com.musinsa.search.domain.SearchProduct;
 import com.musinsa.common.utils.BigDecimalUtils;
 import lombok.*;
 
@@ -32,8 +32,8 @@ public class CategoryLowestPriceResponse {
         private String price;
     }
 
-    public static List<CategoryLowestProduct> fromModel(List<Product> products){
-        return products.stream()
+    public static List<CategoryLowestProduct> fromModel(List<SearchProduct> searchProducts){
+        return searchProducts.stream()
                 .map(product -> new CategoryLowestProduct(
                         product.getCategory(),
                         product.getBrand(),

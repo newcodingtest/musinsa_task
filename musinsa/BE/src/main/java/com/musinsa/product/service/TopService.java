@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import com.musinsa.common.exception.CategoryException;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static com.musinsa.common.exception.CategoryErrorCode.CATEGORY_BRAND_ITEM_NOT_FOUND;
 import static com.musinsa.common.exception.CategoryErrorCode.CATEGORY_ITEM_NOT_FOUND;
 
@@ -50,6 +53,16 @@ public class TopService {
 
     public void deleteTop(Long id){
         topRepository.deleteById(id);
+    }
+
+    public List<Top> getAll(){
+        return topRepository.findAll()
+                .stream().map(TopEntity::toModel)
+                .collect(Collectors.toList());
+    }
+
+    public Top findOne(Long itemId) {
+        return topRepository.findById(itemId).get().toModel();
     }
 
 }

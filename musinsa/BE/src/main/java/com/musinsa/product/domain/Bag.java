@@ -1,9 +1,8 @@
 package com.musinsa.product.domain;
 
-import com.musinsa.common.utils.BigDecimalUtils;
 import com.musinsa.product.api.request.ProductCreateRequest;
 import com.musinsa.product.api.request.ProductUpdateRequest;
-import com.musinsa.search.domain.Product;
+import com.musinsa.search.domain.SearchProduct;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -14,11 +13,12 @@ import java.math.BigDecimal;
 @Builder
 @Getter
 public class Bag {
+    public Long id;
     String brand;
     BigDecimal price;
 
-    public Product toModel(){
-        return Product.builder()
+    public SearchProduct toModel(){
+        return SearchProduct.builder()
                 .category("가방")
                 .brand(brand)
                 .price(price)

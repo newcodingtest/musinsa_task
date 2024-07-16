@@ -2,6 +2,7 @@ package com.musinsa.product.service;
 
 import com.musinsa.product.domain.Accessory;
 import com.musinsa.product.domain.Sneakers;
+import com.musinsa.product.domain.Socks;
 import com.musinsa.product.infrastructure.entity.AccessoryEntity;
 import com.musinsa.product.infrastructure.entity.SneakersEntity;
 import com.musinsa.product.infrastructure.jpa.*;
@@ -9,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.musinsa.common.exception.CategoryException;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.musinsa.common.exception.CategoryErrorCode.CATEGORY_BRAND_ITEM_NOT_FOUND;
 import static com.musinsa.common.exception.CategoryErrorCode.CATEGORY_ITEM_NOT_FOUND;
@@ -48,5 +52,14 @@ public class SneakersService {
 
     public void deleteSneakers(Long id){
         sneakersRepository.deleteById(id);
+    }
+
+    public List<Sneakers> getAll(){
+        return sneakersRepository.findAll()
+                .stream().map(SneakersEntity::toModel)
+                .collect(Collectors.toList());
+    }
+    public Sneakers findOne(Long id) {
+        return sneakersRepository.findById(id).get().toModel();
     }
 }

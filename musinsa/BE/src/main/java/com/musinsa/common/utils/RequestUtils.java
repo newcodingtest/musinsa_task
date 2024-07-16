@@ -1,12 +1,12 @@
 package com.musinsa.common.utils;
 
 public class RequestUtils {
-    public static final String TOP = "top";
-    public static final String OUTER = "outer";
-    public static final String BOTTOM = "bottom";
-    public static final String SNEAKERS = "sneakers";
-    public static final String BAG = "bag";
-    public static final String HAT = "hat";
-    public static final String SOCKS = "socks";
-    public static final String ACCESSORY = "accessory";
+    public static final String TOP = "상의";
+    public static final String OUTER = "아우터";
+    public static final String BOTTOM = "바지";
+    public static final String SNEAKERS = "스니커즈";
+    public static final String BAG = "가방";
+    public static final String HAT = "모자";
+    public static final String SOCKS = "양말";
+    public static final String ACCESSORY = "액세서리";
 }

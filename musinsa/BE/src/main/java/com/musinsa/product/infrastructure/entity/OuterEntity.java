@@ -41,6 +41,7 @@ public class OuterEntity {
 
     public Outer toModel(){
         return Outer.builder()
+                .id(id)
                 .brand(brand)
                 .price(price)
                 .build();

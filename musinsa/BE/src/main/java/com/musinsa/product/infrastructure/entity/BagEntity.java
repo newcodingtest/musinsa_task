@@ -41,6 +41,7 @@ public class BagEntity {
 
     public Bag toModel(){
         return Bag.builder()
+                .id(id)
                 .brand(brand)
                 .price(price)
                 .build();

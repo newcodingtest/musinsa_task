@@ -41,6 +41,7 @@ public class AccessoryEntity {
 
     public Accessory toModel(){
         return Accessory.builder()
+                .id(id)
                 .brand(brand)
                 .price(price)
                 .build();

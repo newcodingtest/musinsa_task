@@ -18,7 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 
 @ExtendWith(MockitoExtension.class)
-public class ProductInventoryFacadeTest {
+public class SearchProductInventoryFacadeTest {
 
     @Mock
     private TopService topService;

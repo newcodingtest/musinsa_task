@@ -42,6 +42,7 @@ public class TopEntity {
 
     public Top toModel(){
         return Top.builder()
+                .id(id)
                 .brand(brand)
                 .price(price)
                 .build();

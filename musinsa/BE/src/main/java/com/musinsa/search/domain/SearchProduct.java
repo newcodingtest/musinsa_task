@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @ToString
 @Getter
 @Builder
-public class Product {
+public class SearchProduct {
     private String category;
     private String brand;
     private BigDecimal price;
