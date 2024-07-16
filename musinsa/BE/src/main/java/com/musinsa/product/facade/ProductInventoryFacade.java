@@ -26,7 +26,7 @@ public class ProductInventoryFacade {
     /**
      * 브랜드 및 상품을 추가
      * */
-    @CacheEvict(value = "productCache", allEntries = true)
+    //@CacheEvict(value = "productCache", key = "'lowestBrandProduct'")
     public void createProduct(ProductCreateRequest productCreateRequest){
         addProductExcute(productCreateRequest);
     }
@@ -63,9 +63,36 @@ public class ProductInventoryFacade {
     /**
      * 브랜드 및 상품을 업데이트
      * */
+<<<<<<< HEAD
     @Transactional
     @Cacheable(value = "productCache", key = "'category'")
     public void updateProduct(ProductUpdateRequest productUpdateRequest){
+=======
+    //@Cacheable(value = "productCache", key = "'category'")
+    public void updateProduct(ProductUpdateRequest productUpdateRequest){
+        String category = productUpdateRequest.getCategory();
+        Long id = productUpdateRequest.getId();
+        if(category.equals(RequestUtils.TOP)){
+            topService.updateTop(id, Top.update(productUpdateRequest));
+        } else if(category.equals(RequestUtils.OUTER)){
+            outerService.updateOuter(id, Outer.update(productUpdateRequest));
+        } else if(category.equals(RequestUtils.BOTTOM)){
+            bottomService.updateBottom(id, Bottom.update(productUpdateRequest));
+        } else if(category.equals(RequestUtils.SNEAKERS)){
+            sneakersService.updateSneakers(id, Sneakers.update(productUpdateRequest));
+        } else if(category.equals(RequestUtils.BAG)){
+            bagService.updateBag(id, Bag.update(productUpdateRequest));
+        } else if(category.equals(RequestUtils.HAT)){
+            hatService.updateHat(id, Hat.update(productUpdateRequest));
+        } else if(category.equals(RequestUtils.SOCKS)){
+            socksService.updateSocks(id, Socks.update(productUpdateRequest));
+        } else if(category.equals(RequestUtils.ACCESSORY)){
+            accessoryService.updateAccssory(id, Accessory.update(productUpdateRequest));
+        }
+    }
+
+    private void updateProductExcute(ProductUpdateRequest productUpdateRequest) {
+>>>>>>> parent of 44138af (FIX: 기능 오류 점검. bag -> bottom)
         String category = productUpdateRequest.getCategory();
         Long id = productUpdateRequest.getId();
 
@@ -94,9 +121,21 @@ public class ProductInventoryFacade {
     /**
      * 브랜드 및 상품을 삭제
      * */
+<<<<<<< HEAD
 
     @CacheEvict(value = "productCache", allEntries = true)
     public void deleteProduct(String category, Long id){
+=======
+    // @CacheEvict(value = "productCache", allEntries = true)
+    //@CacheEvict(value = "productCache", key = "'category'")
+    public void deleteProduct(ProductDeleteRequest productDeleteRequest){
+        deleteProductExcute(productDeleteRequest);
+    }
+
+    private void deleteProductExcute(ProductDeleteRequest productDeleteRequest) {
+        String category = productDeleteRequest.getCategory();
+        Long deleteId = productDeleteRequest.getId();
+>>>>>>> parent of 44138af (FIX: 기능 오류 점검. bag -> bottom)
         if(category.equals(RequestUtils.TOP)){
             topService.deleteTop(id);
         } else if(category.equals(RequestUtils.OUTER)){
