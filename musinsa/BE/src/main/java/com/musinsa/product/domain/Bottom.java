@@ -27,14 +27,14 @@ public class Bottom {
     public static Bottom create(ProductCreateRequest productCreateRequest) {
         return Bottom.builder()
                 .brand(productCreateRequest.getBrand())
-                .price(BigDecimalUtils.parseWithoutCommas(productCreateRequest.getPrice()))
+                .price(productCreateRequest.getPrice())
                 .build();
     }
 
     public static Bottom update(ProductUpdateRequest productUpdateRequest) {
         return Bottom.builder()
                 .brand(productUpdateRequest.getBrand())
-                .price(BigDecimalUtils.parseWithoutCommas(productUpdateRequest.getPrice()))
+                .price(productUpdateRequest.getPrice())
                 .build();
     }
 }

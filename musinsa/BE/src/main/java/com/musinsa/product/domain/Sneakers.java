@@ -28,14 +28,14 @@ public class Sneakers {
     public static Sneakers create(ProductCreateRequest productCreateRequest) {
         return Sneakers.builder()
                 .brand(productCreateRequest.getBrand())
-                .price(BigDecimalUtils.parseWithoutCommas(productCreateRequest.getPrice()))
+                .price(productCreateRequest.getPrice())
                 .build();
     }
 
     public static Sneakers update(ProductUpdateRequest productUpdateRequest) {
         return Sneakers.builder()
                 .brand(productUpdateRequest.getBrand())
-                .price(BigDecimalUtils.parseWithoutCommas(productUpdateRequest.getPrice()))
+                .price(productUpdateRequest.getPrice())
                 .build();
     }
 }

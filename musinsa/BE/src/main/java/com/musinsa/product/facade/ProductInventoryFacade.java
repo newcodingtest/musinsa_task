@@ -26,7 +26,7 @@ public class ProductInventoryFacade {
     /**
      * 브랜드 및 상품을 추가
      * */
-    @CacheEvict(value = "productCache", key = "'lowestBrandProduct'")
+    //@CacheEvict(value = "productCache", key = "'lowestBrandProduct'")
     public void addProduct(ProductCreateRequest productCreateRequest){
         addProductExcute(productCreateRequest);
     }
@@ -63,7 +63,7 @@ public class ProductInventoryFacade {
     /**
      * 브랜드 및 상품을 업데이트
      * */
-    @Cacheable(value = "productCache", key = "#category")
+    //@Cacheable(value = "productCache", key = "'category'")
     public void updateProduct(ProductUpdateRequest productUpdateRequest){
 
         updateProductExcute(productUpdateRequest);
@@ -71,8 +71,9 @@ public class ProductInventoryFacade {
 
     private void updateProductExcute(ProductUpdateRequest productUpdateRequest) {
         String category = productUpdateRequest.getCategory();
+        Long id = productUpdateRequest.getId();
         if(category.equals(RequestUtils.TOP)){
-            topService.createTop(Top.update(productUpdateRequest));
+            topService.updateTop(id,Top.update(productUpdateRequest));
         } else if(category.equals(RequestUtils.OUTER)){
             outerService.createOuter(Outer.update(productUpdateRequest));
         } else if(category.equals(RequestUtils.BOTTOM)){
@@ -94,7 +95,7 @@ public class ProductInventoryFacade {
      * 브랜드 및 상품을 삭제
      * */
     // @CacheEvict(value = "productCache", allEntries = true)
-    @CacheEvict(value = "productCache", key = "#category")
+    //@CacheEvict(value = "productCache", key = "'category'")
     public void deleteProduct(ProductDeleteRequest productDeleteRequest){
         deleteProductExcute(productDeleteRequest);
     }

@@ -7,10 +7,7 @@ import com.musinsa.search.service.PricingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -46,8 +43,8 @@ public class SearchApi {
      *  3. 카테고리 이름으로 최저, 최고 가격 브랜드와 상품 가격을 조회하는 API
      *
      * */
-    @GetMapping("/api/cheapest-hightest")
-    public ResponseEntity<CategoryOneLowestPriceResponse> getLowestPriceBrandProduct(@RequestParam String category){
+    @GetMapping("/api/cheapest-hightest/{category}")
+    public ResponseEntity<CategoryOneLowestPriceResponse> getLowestPriceBrandProduct(@PathVariable final String category){
         return new ResponseEntity<>(pricingService.getLowHigtestBrandPrice(category),
                 HttpStatus.FOUND);
     }

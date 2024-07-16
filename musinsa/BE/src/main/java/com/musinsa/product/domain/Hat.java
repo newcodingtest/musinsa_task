@@ -28,14 +28,14 @@ public class Hat {
     public static Hat create(ProductCreateRequest productCreateRequest) {
         return Hat.builder()
                 .brand(productCreateRequest.getBrand())
-                .price(BigDecimalUtils.parseWithoutCommas(productCreateRequest.getPrice()))
+                .price(productCreateRequest.getPrice())
                 .build();
     }
 
     public static Hat update(ProductUpdateRequest productUpdateRequest) {
         return Hat.builder()
                 .brand(productUpdateRequest.getBrand())
-                .price(BigDecimalUtils.parseWithoutCommas(productUpdateRequest.getPrice()))
+                .price(productUpdateRequest.getPrice())
                 .build();
     }
 }

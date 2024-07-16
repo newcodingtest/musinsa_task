@@ -28,14 +28,14 @@ public class Bag {
     public static Bag create(ProductCreateRequest productCreateRequest) {
         return Bag.builder()
                 .brand(productCreateRequest.getBrand())
-                .price(BigDecimalUtils.parseWithoutCommas(productCreateRequest.getPrice()))
+                .price(productCreateRequest.getPrice())
                 .build();
     }
 
     public static Bag update(ProductUpdateRequest productUpdateRequest) {
         return Bag.builder()
                 .brand(productUpdateRequest.getBrand())
-                .price(BigDecimalUtils.parseWithoutCommas(productUpdateRequest.getPrice()))
+                .price(productUpdateRequest.getPrice())
                 .build();
     }
 }

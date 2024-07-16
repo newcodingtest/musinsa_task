@@ -28,14 +28,14 @@ public class Socks {
     public static Socks create(ProductCreateRequest productCreateRequest) {
         return Socks.builder()
                 .brand(productCreateRequest.getBrand())
-                .price(BigDecimalUtils.parseWithoutCommas(productCreateRequest.getPrice()))
+                .price(productCreateRequest.getPrice())
                 .build();
     }
 
     public static Socks update(ProductUpdateRequest productUpdateRequest) {
         return Socks.builder()
                 .brand(productUpdateRequest.getBrand())
-                .price(BigDecimalUtils.parseWithoutCommas(productUpdateRequest.getPrice()))
+                .price(productUpdateRequest.getPrice())
                 .build();
     }
 }

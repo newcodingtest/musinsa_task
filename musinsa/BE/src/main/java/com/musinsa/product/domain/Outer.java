@@ -28,14 +28,14 @@ public class Outer {
     public static Outer create(ProductCreateRequest productCreateRequest) {
         return Outer.builder()
                 .brand(productCreateRequest.getBrand())
-                .price(BigDecimalUtils.parseWithoutCommas(productCreateRequest.getPrice()))
+                .price(productCreateRequest.getPrice())
                 .build();
     }
 
     public static Outer update(ProductUpdateRequest productUpdateRequest) {
         return Outer.builder()
                 .brand(productUpdateRequest.getBrand())
-                .price(BigDecimalUtils.parseWithoutCommas(productUpdateRequest.getPrice()))
+                .price(productUpdateRequest.getPrice())
                 .build();
     }
 }

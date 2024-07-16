@@ -29,14 +29,14 @@ public class Accessory {
     public static Accessory create(ProductCreateRequest productCreateRequest) {
         return Accessory.builder()
                 .brand(productCreateRequest.getBrand())
-                .price(BigDecimalUtils.parseWithoutCommas(productCreateRequest.getPrice()))
+                .price(productCreateRequest.getPrice())
                 .build();
     }
 
     public static Accessory update(ProductUpdateRequest productUpdateRequest) {
         return Accessory.builder()
                 .brand(productUpdateRequest.getBrand())
-                .price(BigDecimalUtils.parseWithoutCommas(productUpdateRequest.getPrice()))
+                .price(productUpdateRequest.getPrice())
                 .build();
     }
 }
