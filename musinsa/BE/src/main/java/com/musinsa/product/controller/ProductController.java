@@ -25,7 +25,6 @@ public class ProductController {
 
     @RequestMapping("/")
     public String home() {
-        log.info("home controller");
         return "home";
     }
 
@@ -67,7 +66,6 @@ public class ProductController {
     @PutMapping("/products")
     public String updateItem(
             @RequestBody ProductUpdateRequest productUpdateRequest) {
-        log.info("들어는 왔어");
         productInventoryFacade.updateProduct(productUpdateRequest);
 
         return "products/productList";
@@ -76,9 +74,7 @@ public class ProductController {
     @DeleteMapping("/products")
     public String updateItem(
             @RequestBody ProductDeleteRequest productDeleteRequest) {
-        log.info("들어는 왔어");
         productInventoryFacade.deleteProduct(productDeleteRequest);
-
         return "products/productList";
     }
 }
