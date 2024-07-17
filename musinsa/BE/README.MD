@@ -59,3 +59,228 @@ System.out.println(new BigDecimal("0.1").add(new BigDecimal("0.2"))); // 0.3
 
 `BigDecimal`은 소수점 이하 자리수를 지정할 수 있는 `scale`과 전체 자리수를 지정할 수 있는 `precision`을 통해 값의 정밀도를 제어할 수 있습니다.
 
+
+
+<br><br>
+
+##### 과제
+- [x] 카테고리 별 최저가격 브랜드와 상품 가격, 총액을 조회하는 API
+
+- [x]  단일 브랜드로 모든 카테고리 상품을 구매할 때 최저가격에 -판매하는 브랜드와 카테고리의     상 품가격, 총액을 조회하는 API
+
+- [x] 카테고리 별 최저가격 브랜드와 상품 가격, 총액을 조회하는 API
+
+- [x] 브랜드 및 상품을 추가 / 업데이트 / 삭제하는 API
+
+##### 가산점
+- [x] Unit test 및 Integration test 작성
+
+- [ ] Frontend 페이지 구현
+
+
+<br>
+
+### API 명세
+
+![스크린샷 2024-07-17 151447](https://github.com/user-attachments/assets/08637c43-f46a-4e02-8640-071c101e86d4)
+
+```
+http://localhost:8081/api/cheapest-category
+```
+Response
+```
+{
+    "products": [
+        {
+            "카테고리": "모자",
+            "브랜드": "D",
+            "가격": "1,500"
+        },
+        {
+            "카테고리": "상의",
+            "브랜드": "C",
+            "가격": "10,000"
+        },
+        {
+            "카테고리": "아우터",
+            "브랜드": "E",
+            "가격": "5,000"
+        },
+        {
+            "카테고리": "바지",
+            "브랜드": "D",
+            "가격": "3,000"
+        },
+        {
+            "카테고리": "스니커즈",
+            "브랜드": "G",
+            "가격": "9,000"
+        },
+        {
+            "카테고리": "가방",
+            "브랜드": "A",
+            "가격": "2,000"
+        },
+        {
+            "카테고리": "양말",
+            "브랜드": "I",
+            "가격": "1,700"
+        },
+        {
+            "카테고리": "액세서리",
+            "브랜드": "F",
+            "가격": "1,900"
+        }
+    ],
+    "총액": "34,100"
+}
+```
+<br><br>
+
+![스크린샷 2024-07-17 151459](https://github.com/user-attachments/assets/fb987a28-3a1c-431c-befd-eb044717a48c)
+
+```
+http://localhost:8081/api/cheapest-brand
+```
+Response
+```
+{
+    "최저가": {
+        "브랜드": "D",
+        "카테고리": [
+            {
+                "카테고리": "모자",
+                "가격": "1,500"
+            },
+            {
+                "카테고리": "상의",
+                "가격": "10,100"
+            },
+            {
+                "카테고리": "아우터",
+                "가격": "5,100"
+            },
+            {
+                "카테고리": "바지",
+                "가격": "3,000"
+            },
+            {
+                "카테고리": "양말",
+                "가격": "2,400"
+            },
+            {
+                "카테고리": "스니커즈",
+                "가격": "9,500"
+            },
+            {
+                "카테고리": "액세서리",
+                "가격": "2,000"
+            },
+            {
+                "카테고리": "가방",
+                "가격": "2,500"
+            }
+        ]
+    },
+    "총액": "36,100"
+}
+```
+
+<br><br>
+
+![스크린샷 2024-07-17 151516](https://github.com/user-attachments/assets/59fe89f1-490c-4511-af68-0e0d9df31265)
+```
+http://localhost:8081/api/cheapest-hightest/${category}
+
+
+${category}:
+top, outer, bottom, socks, sneakers, hat, bag, accessory
+```
+Response
+```
+{
+    "카테고리": "상의",
+    "최저가": {
+        "브랜드": "C",
+        "가격": "10,000"
+    },
+    "최고가": {
+        "브랜드": "I",
+        "가격": "11,400"
+    }
+}
+```
+<br><br>
+
+
+![스크린샷 2024-07-17 151532](https://github.com/user-attachments/assets/3a6e281b-8581-4131-b755-aea8fa63538e)
+
+```
+http://localhost:8081/api/products
+```
+**Request Body** (json)
+
+```
+{
+    "brand" : "C",       //A~Z
+    "category" : "top",  //top, outer, bottom, socks, sneakers, hat, bag, accessory
+    "price" : 10000
+}
+```
+Response
+```
+{
+    "카테고리": "상의",
+    "최저가": {
+        "브랜드": "C",
+        "가격": "10,000"
+    },
+    "최고가": {
+        "브랜드": "I",
+        "가격": "11,400"
+    }
+}
+```
+
+<br><br>
+
+![스크린샷 2024-07-17 151544](https://github.com/user-attachments/assets/ecabe12b-0f18-4b2c-ae9a-30cf813203f6)
+
+```
+http://localhost:8081/api/products
+```
+
+**Request Body** (json)
+```
+{
+    "id" : 10,    
+    "brand" : "C",      //A~Z
+    "category" : "top", //top, outer, bottom, socks, sneakers, hat, bag, accessory
+    "price" : 90000
+}
+```
+Response
+```
+HTTP Status 200
+```
+<br><br>
+
+![스크린샷 2024-07-17 151558](https://github.com/user-attachments/assets/2cfbb6dc-1135-4fec-9322-496400162262)
+
+```
+http://localhost:8081/api/products
+```
+
+**Request Body** (json)
+```
+{
+    "id" : 10,
+    "category" : "top" //top, outer, bottom, socks, sneakers, hat, bag, accessory
+}
+```
+Response
+```
+HTTP Status 200
+```
+
+
