@@ -17,13 +17,7 @@ public class Top {
     String brand;
     BigDecimal price;
 
-    public SearchProduct toModel(){
-        return SearchProduct.builder()
-                .category("상의")
-                .brand(brand)
-                .price(price)
-                .build();
-    }
+
 
     public static Top create(ProductCreateRequest productCreateRequest) {
         return Top.builder()

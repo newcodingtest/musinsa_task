@@ -17,13 +17,6 @@ public class Outer {
     String brand;
     BigDecimal price;
 
-    public SearchProduct toModel(){
-        return SearchProduct.builder()
-                .category("아우터")
-                .brand(brand)
-                .price(price)
-                .build();
-    }
 
     public static Outer create(ProductCreateRequest productCreateRequest) {
         return Outer.builder()

@@ -53,14 +53,14 @@ public class PricingFacade {
         Accessory accessory = accessoryService.getAccessoryMinimumPrice();
 
         List<SearchProduct> searchProducts = Arrays.asList(
-                hat.toModel(),
-                top.toModel(),
-                outer.toModel(),
-                bottom.toModel(),
-                sneakers.toModel(),
-                bag.toModel(),
-                socks.toModel(),
-                accessory.toModel()
+                SearchProduct.fromModel(hat),
+                SearchProduct.fromModel(top),
+                SearchProduct.fromModel(outer),
+                SearchProduct.fromModel(bottom),
+                SearchProduct.fromModel(sneakers),
+                SearchProduct.fromModel(bag),
+                SearchProduct.fromModel(socks),
+                SearchProduct.fromModel(accessory)
         );
 
         totalPrice = searchProducts.stream()
@@ -139,59 +139,46 @@ public class PricingFacade {
         SearchProduct maximum = null;
 
         if (category.equals(RequestUtils.TOP)){
-            minimum = topService.getTopMinimumPrice()
-                    .toModel();
-            maximum = topService.getTopMaximumPrice()
-                    .toModel();
+            minimum = SearchProduct.fromModel(topService.getTopMinimumPrice());
+            maximum = SearchProduct.fromModel(topService.getTopMaximumPrice());
         }
 
         else if (category.equals(RequestUtils.OUTER)){
-            minimum = outerService.getOuterMinimumPrice()
-                    .toModel();
-            maximum = outerService.getOuterMaximumPrice()
-                    .toModel();
+            minimum = SearchProduct.fromModel(outerService.getOuterMinimumPrice());
+            maximum = SearchProduct.fromModel(outerService.getOuterMaximumPrice());
         }
 
         else if (category.equals(RequestUtils.BOTTOM)){
-            minimum = bottomService.getBottomMinimumPrice()
-                    .toModel();
-            maximum = bottomService.getBottomMaximumPrice()
-                    .toModel();
+            minimum = SearchProduct.fromModel(bottomService.getBottomMinimumPrice());
+            maximum = SearchProduct.fromModel(bottomService.getBottomMaximumPrice());
         }
 
         else if (category.equals(RequestUtils.SNEAKERS)){
-            minimum = sneakersService.getSneakersMinimumPrice()
-                    .toModel();
-            maximum = sneakersService.getSneakersMaximumPrice()
-                    .toModel();
+            minimum = SearchProduct.fromModel(sneakersService.getSneakersMinimumPrice());
+            maximum = SearchProduct.fromModel(sneakersService.getSneakersMaximumPrice());
         }
 
         else if (category.equals(RequestUtils.BAG)){
-            minimum = bagService.getBagMinimumPrice()
-                    .toModel();
-            maximum = bagService.getBagMaximumPrice()
-                    .toModel();
+            minimum = SearchProduct.fromModel(bagService.getBagMinimumPrice());
+            maximum = SearchProduct.fromModel(bagService.getBagMaximumPrice());
         }
 
         else if (category.equals(RequestUtils.HAT)){
-            minimum = hatService.getHatMinimumPrice()
-                    .toModel();
-            maximum = hatService.getHatMaximumPrice()
-                    .toModel();
+            minimum = SearchProduct.fromModel(hatService.getHatMinimumPrice());
+            maximum = SearchProduct.fromModel(hatService.getHatMaximumPrice());
         }
 
         else if (category.equals(RequestUtils.SOCKS)){
-            minimum = socksService.getSocksMinimumPrice()
-                    .toModel();
-            maximum = socksService.getSocksMaximumPrice()
-                    .toModel();
+            minimum = SearchProduct.fromModel(socksService.getSocksMinimumPrice());
+            maximum = SearchProduct.fromModel(socksService.getSocksMaximumPrice());
+
         }
 
         else if (category.equals(RequestUtils.ACCESSORY)){
-            minimum = accessoryService.getAccessoryMaximumPrice()
-                    .toModel();
-            maximum = accessoryService.getAccessoryMaximumPrice()
-                    .toModel();
+            minimum = SearchProduct.fromModel(accessoryService.getAccessoryMaximumPrice());
+
+            maximum = SearchProduct.fromModel(accessoryService.getAccessoryMaximumPrice());
+
         } else {
             throw new CategoryException.CategoryNotFoundException(CATEGORY_NOT_FOUND, category);
         }
@@ -221,14 +208,14 @@ public class PricingFacade {
         Bag bag = bagService.getBagMinimumPriceByBrand(brand);
 
         List<SearchProduct> searchProducts = Arrays.asList(
-                hat.toModel(),
-                top.toModel(),
-                outer.toModel(),
-                bottom.toModel(),
-                socks.toModel(),
-                sneakers.toModel(),
-                accessory.toModel(),
-                bag.toModel()
+                SearchProduct.fromModel(hat),
+                SearchProduct.fromModel(top),
+                SearchProduct.fromModel(outer),
+                SearchProduct.fromModel(bottom),
+                SearchProduct.fromModel(sneakers),
+                SearchProduct.fromModel(bag),
+                SearchProduct.fromModel(socks),
+                SearchProduct.fromModel(accessory)
         );
         return searchProducts;
     }

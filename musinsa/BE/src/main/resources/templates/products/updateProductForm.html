@@ -6,7 +6,7 @@
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
-    <form th:object="${product}" method="put">
+    <form id="productForm" th:object="${product}"  th:action="@{/products}" method="put" onsubmit="submitForm(event)" >
         <!-- id -->
         <input type="hidden" th:field="*{id}" />
 
@@ -31,3 +31,56 @@
 
 </body>
 </html>
+<script>
+    function submitForm(event) {
+        event.preventDefault(); // 폼의 기본 제출 동작을 취소합니다.
+        const form = document.getElementById('productForm');
+        const formData = new FormData(form);
+        const jsonData = {};
+
+        formData.forEach((value, key) => {
+            jsonData[key] = value;
+        });
+
+
+        // Category 값을 확인하고 변환
+        if (jsonData['category'] === '상의') {
+            jsonData['category'] = 'top';
+        } else if (jsonData['category'] === '바지') {
+            jsonData['category'] = 'bottom';
+        } else if (jsonData['category'] === '모자') {
+            jsonData['category'] = 'hat';
+        } else if (jsonData['category'] === '가방') {
+            jsonData['category'] = 'bag';
+        } else if (jsonData['category'] === '아우터') {
+            jsonData['category'] = 'outer';
+        } else if (jsonData['category'] === '양말') {
+            jsonData['category'] = 'socks';
+        } else if (jsonData['category'] === '스니커즈') {
+            jsonData['category'] = 'sneakers';
+        } else if (jsonData['category'] === '액세서리') {
+            jsonData['category'] = 'accessory';
+        }
+
+
+        fetch(form.action, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonData)
+        }).then(response => {
+            if (response.redirected) {
+                // 리다이렉션 응답이 있을 경우
+                window.location.href = response.url;
+            } else if (response.ok) {
+                window.location.href = '/products'; // Fetch 요청이 성공한 후, 쿼리 파라미터를 제거하고 리다이렉트
+            } else {
+                alert('Error: ' + response.statusText);
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+</script>

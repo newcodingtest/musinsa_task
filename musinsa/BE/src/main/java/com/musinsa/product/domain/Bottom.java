@@ -16,13 +16,7 @@ public class Bottom {
     String brand;
     BigDecimal price;
 
-    public SearchProduct toModel(){
-        return SearchProduct.builder()
-                .category("바지")
-                .brand(brand)
-                .price(price)
-                .build();
-    }
+
 
     public static Bottom create(ProductCreateRequest productCreateRequest) {
         return Bottom.builder()

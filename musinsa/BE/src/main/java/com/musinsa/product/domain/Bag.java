@@ -17,13 +17,7 @@ public class Bag {
     String brand;
     BigDecimal price;
 
-    public SearchProduct toModel(){
-        return SearchProduct.builder()
-                .category("가방")
-                .brand(brand)
-                .price(price)
-                .build();
-    }
+
 
     public static Bag create(ProductCreateRequest productCreateRequest) {
         return Bag.builder()

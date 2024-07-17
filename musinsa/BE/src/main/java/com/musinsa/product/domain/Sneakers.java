@@ -17,13 +17,6 @@ public class Sneakers {
     String brand;
     BigDecimal price;
 
-    public SearchProduct toModel(){
-        return SearchProduct.builder()
-                .category("스니커즈")
-                .brand(brand)
-                .price(price)
-                .build();
-    }
 
     public static Sneakers create(ProductCreateRequest productCreateRequest) {
         return Sneakers.builder()

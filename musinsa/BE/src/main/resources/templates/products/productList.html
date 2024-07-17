@@ -10,10 +10,10 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>#</th>
-                <th>상품명</th>
+                <th>브랜드</th>
+                <th>카테고리</th>
                 <th>가격</th>
-                <th>재고수량</th>
+                <th>수정/삭제</th>
                 <th></th>
             </tr>
             </thead>
@@ -24,7 +24,26 @@
                 <td th:text="${product.category}"></td>
                 <td th:text="${product.price}"></td>
                 <td>
-                    <a href="#" th:href="@{/products/{category}/{id} (category=${product.category}, id=${product.id})}" class="btn btn-primary" role="button">수정</a>
+                    <a th:href="@{/products/{category}/{id} (
+                                                category=${
+                                                    product.category == '상의' ? 'top' :
+                                                    (product.category == '바지' ? 'bottom' :
+                                                    (product.category == '모자' ? 'hat' :
+                                                    (product.category == '양말' ? 'socks' :
+                                                    (product.category == '아우터' ? 'outer' :
+                                                    (product.category == '스니커즈' ? 'sneakers' :
+                                                    (product.category == '가방' ? 'bag' :
+                                                    (product.category == '액세서리' ? 'accessory' : 'default')))))))
+                                                },
+                                                id=${product.id})}"
+                       class="btn btn-primary" role="button">수정</a>
+                <td>
+                    <a href="javascript:void(0);"
+                       class="btn btn-primary"
+                       role="button"
+                       th:data-category="${product.category}"
+                       th:data-id="${product.id}"
+                       onclick="deleteProduct(this)">삭제</a>
                 </td>
             </tr>
             </tbody>
@@ -37,3 +56,42 @@
 
 </body>
 </html>
+<script>
+    function deleteProduct(element) {
+        const category = element.getAttribute('data-category');
+        const id = element.getAttribute('data-id');
+
+        const categoryMapping = {
+            '상의': 'top',
+            '바지': 'bottom',
+            '모자': 'hat',
+            '양말': 'socks',
+            '아우터': 'outer',
+            '스니커즈': 'sneakers',
+            '가방': 'bag',
+            '액세서리': 'accessory'
+        };
+
+        const mappedCategory = categoryMapping[category] || 'default';
+        const data = {
+            category: mappedCategory,
+            id: id
+        };
+
+        fetch('/products', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(response => {
+            if (response.ok) {
+                window.location.href = '/products';
+            } else {
+                alert('Error: ' + response.statusText);
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+    }
+</script>

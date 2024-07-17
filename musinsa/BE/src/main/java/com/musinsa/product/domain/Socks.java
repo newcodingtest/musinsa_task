@@ -17,13 +17,6 @@ public class Socks {
     String brand;
     BigDecimal price;
 
-    public SearchProduct toModel(){
-        return SearchProduct.builder()
-                .category("양말")
-                .brand(brand)
-                .price(price)
-                .build();
-    }
 
     public static Socks create(ProductCreateRequest productCreateRequest) {
         return Socks.builder()

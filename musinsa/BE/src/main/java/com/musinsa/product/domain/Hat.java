@@ -17,13 +17,6 @@ public class Hat {
     String brand;
     BigDecimal price;
 
-    public SearchProduct toModel(){
-        return SearchProduct.builder()
-                .category("모자")
-                .brand(brand)
-                .price(price)
-                .build();
-    }
 
     public static Hat create(ProductCreateRequest productCreateRequest) {
         return Hat.builder()

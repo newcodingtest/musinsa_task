@@ -17,13 +17,13 @@ public class Accessory {
     public String brand;
     public BigDecimal price;
 
-    public SearchProduct toModel(){
-        return SearchProduct.builder()
-                .category("액세서리")
-                .brand(brand)
-                .price(price)
-                .build();
-    }
+//    public SearchProduct toModel(){
+//        return SearchProduct.builder()
+//                .category("액세서리")
+//                .brand(brand)
+//                .price(price)
+//                .build();
+//    }
 
     public static Accessory create(ProductCreateRequest productCreateRequest) {
         return Accessory.builder()
