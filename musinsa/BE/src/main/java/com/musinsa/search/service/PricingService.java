@@ -39,7 +39,7 @@ public class PricingService {
      * 카테고리 별로 최저가격 브랜드를 만들어준다.
      *
      * */
-    @Cacheable(value = "productCache", key = "'minimumProduct'")
+    @Cacheable(value = "minimumProduct", key = "'minimumProduct'")
     public CategoryLowestPriceResponse getMinimumProduct(){
         BigDecimal totalPrice = BigDecimal.ZERO;
 
@@ -78,7 +78,7 @@ public class PricingService {
      * 조회하는 API
      *
      * */
-    @Cacheable(value = "productCache", key = "'lowestBrandProduct'")
+    @Cacheable(value = "lowestBrandProduct", key = "'lowestBrandProduct'")
     public BrandLowestPriceResponse getLowestBrandProduct(){
         //브랜드 별 최저가 상품 조회
         List<SearchProduct> lowestSearchProductA = getLowestProductsByBrand("A");
@@ -133,7 +133,7 @@ public class PricingService {
      * 카테고리 이름으로 최저가격 조회하기
      * @param category, (top, outer, bottom, sneakers, hat, socks, accessory)
      * */
-    @Cacheable(value = "productCache", key = "'category'")
+    @Cacheable(value = "productCacheByCategory", key = "#category")
     public CategoryOneLowestPriceResponse getLowHigtestBrandPrice(String category){
         SearchProduct minimum = null;
         SearchProduct maximum = null;

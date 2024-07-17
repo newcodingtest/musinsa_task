@@ -1,5 +1,6 @@
 package com.musinsa.product.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.musinsa.common.utils.RequestUtils;
 import com.musinsa.product.api.request.ProductCreateRequest;
 import com.musinsa.product.api.request.ProductDeleteRequest;
@@ -71,54 +72,57 @@ public class ProductApiTests {
     @Test
     void 상품을_생성_할_수_있다() throws Exception {
         // given
+        String request = new ObjectMapper().writeValueAsString(createRequest);
         Mockito.doNothing().when(productInventoryFacade).createProduct(Mockito.any(ProductCreateRequest.class));
         // when
         mockMvc.perform(post("/api/products")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"brand\":\"C\", \"category\": \"상의\", \"price\":10000 }"))
+                        .content(request))
                 // then
                 .andExpect(status().isCreated());
 
         Mockito.verify(productInventoryFacade).createProduct(createRequestCaptor.capture());
-        assertEquals("C", createRequestCaptor.getValue().getBrand());
-        assertEquals(RequestUtils.TOP, createRequestCaptor.getValue().getCategory());
-        assertEquals(BigDecimal.valueOf(10000), createRequestCaptor.getValue().getPrice());
+        assertEquals(createRequest.getBrand(), createRequestCaptor.getValue().getBrand());
+        assertEquals(createRequest.getCategory(), createRequestCaptor.getValue().getCategory());
+        assertEquals(createRequest.getPrice(), createRequestCaptor.getValue().getPrice());
     }
 
     @Test
     void 상품을_삭제_할_수_있다() throws Exception {
         // given
+        String request = new ObjectMapper().writeValueAsString(deleteRequest);
         Mockito.doNothing().when(productInventoryFacade).deleteProduct(Mockito.any(ProductDeleteRequest.class));
 
         // when
         mockMvc.perform(delete("/api/products")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"id\":1, \"category\": \"상의\"}"))
+                        .content(request))
                 // then
                 .andExpect(status().isOk());
 
         Mockito.verify(productInventoryFacade).deleteProduct(deleteRequestCaptor.capture());
-        assertEquals(1L, deleteRequestCaptor.getValue().getId());
-        assertEquals(RequestUtils.TOP, deleteRequestCaptor.getValue().getCategory());
+        assertEquals(deleteRequest.getId(), deleteRequestCaptor.getValue().getId());
+        assertEquals(deleteRequest.getCategory(), deleteRequestCaptor.getValue().getCategory());
 
     }
 
     @Test
     void 상품을_수정_할_수_있다() throws Exception {
         // given
+        String request = new ObjectMapper().writeValueAsString(updateRequest);
         Mockito.doNothing().when(productInventoryFacade).updateProduct(Mockito.any(ProductUpdateRequest.class));
 
         // when
         mockMvc.perform(put("/api/products")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"id\":1, \"category\":\"상의\", \"brand\":\"A\", \"price\":1500}"))
+                .content(request))
                 // then
                 .andExpect(status().isOk());
 
         Mockito.verify(productInventoryFacade).updateProduct(updateRequestCaptor.capture());
-        assertEquals(1L, updateRequestCaptor.getValue().getId());
-        assertEquals(RequestUtils.TOP, updateRequestCaptor.getValue().getCategory());
-        assertEquals("A", updateRequestCaptor.getValue().getBrand());
-        assertEquals( BigDecimal.valueOf(1500), updateRequestCaptor.getValue().getPrice());
+        assertEquals(updateRequest.getId(), updateRequestCaptor.getValue().getId());
+        assertEquals(updateRequest.getCategory(), updateRequestCaptor.getValue().getCategory());
+        assertEquals(updateRequest.getBrand(), updateRequestCaptor.getValue().getBrand());
+        assertEquals( updateRequest.getPrice(), updateRequestCaptor.getValue().getPrice());
     }
 }

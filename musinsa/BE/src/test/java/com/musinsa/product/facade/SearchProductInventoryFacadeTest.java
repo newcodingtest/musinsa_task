@@ -3,6 +3,7 @@ package com.musinsa.product.facade;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import com.musinsa.common.service.CacheService;
 import com.musinsa.common.utils.RequestUtils;
 import com.musinsa.product.api.request.ProductCreateRequest;
 import com.musinsa.product.api.request.ProductDeleteRequest;
@@ -36,6 +37,9 @@ public class SearchProductInventoryFacadeTest {
     private SocksService socksService;
     @Mock
     private AccessoryService accessoryService;
+
+    @Mock
+    private CacheService cacheService;
 
     @InjectMocks
     private ProductInventoryFacade productInventoryFacade;

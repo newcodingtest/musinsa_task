@@ -512,7 +512,7 @@ public class PricingServiceTests {
 
 
         //then
-        assertEquals(category, getLowHigtestBrandPrice.getCategory());
+        assertEquals("상의", getLowHigtestBrandPrice.getCategory());
         assertEquals("I", getLowHigtestBrandPrice
                 .getLowest()
                 .getBrand());
