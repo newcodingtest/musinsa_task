@@ -1,4 +1,4 @@
-package com.musinsa.search.service;
+package com.musinsa.search.facade;
 
 import com.musinsa.common.exception.CategoryException;
 import com.musinsa.search.api.response.BrandLowestPriceResponse;
@@ -23,7 +23,7 @@ import static com.musinsa.common.exception.CategoryErrorCode.CATEGORY_NOT_FOUND;
 
 @RequiredArgsConstructor
 @Service
-public class PricingService {
+public class PricingFacade {
 
     private final AccessoryService accessoryService;
     private final BagService bagService;

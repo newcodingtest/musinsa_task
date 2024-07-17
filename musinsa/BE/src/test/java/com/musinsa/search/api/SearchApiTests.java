@@ -4,7 +4,7 @@ import com.musinsa.search.api.response.BrandLowestPriceResponse;
 import com.musinsa.search.api.response.CategoryLowestPriceResponse;
 import com.musinsa.search.api.response.CategoryOneLowestPriceResponse;
 import com.musinsa.search.domain.SearchProduct;
-import com.musinsa.search.service.PricingService;
+import com.musinsa.search.facade.PricingFacade;
 import com.musinsa.common.utils.BigDecimalUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ public class SearchApiTests {
     private MockMvc mockMvc;
 
     @MockBean
-    private PricingService pricingService;
+    private PricingFacade pricingFacade;
 
     private CategoryLowestPriceResponse categoryLowestPriceResponse;
     private BrandLowestPriceResponse brandLowestPriceResponse;
@@ -113,9 +113,9 @@ public class SearchApiTests {
                 .build();
 
         // Mock 서비스 메서드 설정
-        given(pricingService.getMinimumProduct()).willReturn(categoryLowestPriceResponse);
-        given(pricingService.getLowestBrandProduct()).willReturn(brandLowestPriceResponse);
-        given(pricingService.getLowHigtestBrandPrice(Mockito.anyString())).willReturn(categoryOneLowestPriceResponse);
+        given(pricingFacade.getMinimumProduct()).willReturn(categoryLowestPriceResponse);
+        given(pricingFacade.getLowestBrandProduct()).willReturn(brandLowestPriceResponse);
+        given(pricingFacade.getLowHigtestBrandPrice(Mockito.anyString())).willReturn(categoryOneLowestPriceResponse);
     }
 
     public void setup2() {
@@ -200,9 +200,9 @@ public class SearchApiTests {
                 .build();
 
         // Mock 서비스 메서드 설정
-        given(pricingService.getMinimumProduct()).willReturn(categoryLowestPriceResponse);
-        given(pricingService.getLowestBrandProduct()).willReturn(brandLowestPriceResponse);
-        given(pricingService.getLowHigtestBrandPrice(Mockito.anyString())).willReturn(categoryOneLowestPriceResponse);
+        given(pricingFacade.getMinimumProduct()).willReturn(categoryLowestPriceResponse);
+        given(pricingFacade.getLowestBrandProduct()).willReturn(brandLowestPriceResponse);
+        given(pricingFacade.getLowHigtestBrandPrice(Mockito.anyString())).willReturn(categoryOneLowestPriceResponse);
     }
 
     public void setup3() {
@@ -287,9 +287,9 @@ public class SearchApiTests {
                 .build();
 
         // Mock 서비스 메서드 설정
-        given(pricingService.getMinimumProduct()).willReturn(categoryLowestPriceResponse);
-        given(pricingService.getLowestBrandProduct()).willReturn(brandLowestPriceResponse);
-        given(pricingService.getLowHigtestBrandPrice(Mockito.anyString())).willReturn(categoryOneLowestPriceResponse);
+        given(pricingFacade.getMinimumProduct()).willReturn(categoryLowestPriceResponse);
+        given(pricingFacade.getLowestBrandProduct()).willReturn(brandLowestPriceResponse);
+        given(pricingFacade.getLowHigtestBrandPrice(Mockito.anyString())).willReturn(categoryOneLowestPriceResponse);
     }
 
 

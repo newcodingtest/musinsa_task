@@ -1,4 +1,4 @@
-package com.musinsa.search.service;
+package com.musinsa.search.facade;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class PricingServiceTests {
+public class PricingFacadeTests {
 
     @Mock
     private AccessoryService accessoryService;
@@ -41,7 +41,7 @@ public class PricingServiceTests {
     private TopService topService;
 
     @InjectMocks
-    private PricingService categoryPricingService;
+    private PricingFacade categoryPricingFacade;
 
     @Test
     public void 카테고리_별_최저가격_브랜드와_상품_가격_총액을_조회할_수_있다() {
@@ -103,7 +103,7 @@ public class PricingServiceTests {
                                 .build());
 
         //when
-        CategoryLowestPriceResponse categoryLowestPriceResponse = categoryPricingService.getMinimumProduct();
+        CategoryLowestPriceResponse categoryLowestPriceResponse = categoryPricingFacade.getMinimumProduct();
 
         //then
 
@@ -277,7 +277,7 @@ public class PricingServiceTests {
                                 .build());
 
         //when
-        CategoryLowestPriceResponse categoryLowestPriceResponse = categoryPricingService.getMinimumProduct();
+        CategoryLowestPriceResponse categoryLowestPriceResponse = categoryPricingFacade.getMinimumProduct();
 
         String jsonInString = om.writeValueAsString(categoryLowestPriceResponse);
 
@@ -361,7 +361,7 @@ public class PricingServiceTests {
         브랜드별_최저가격_상품_세팅();
 
         //when
-        BrandLowestPriceResponse categoryLowestPriceResponse = categoryPricingService.getLowestBrandProduct();
+        BrandLowestPriceResponse categoryLowestPriceResponse = categoryPricingFacade.getLowestBrandProduct();
 
         //then
         assertEquals("8,000", categoryLowestPriceResponse.getTotalPrice());
@@ -507,7 +507,7 @@ public class PricingServiceTests {
         카테고리_최저최고_상품_세팅(category);
         
         //when
-        CategoryOneLowestPriceResponse getLowHigtestBrandPrice = categoryPricingService
+        CategoryOneLowestPriceResponse getLowHigtestBrandPrice = categoryPricingFacade
                 .getLowHigtestBrandPrice(category);
 
 

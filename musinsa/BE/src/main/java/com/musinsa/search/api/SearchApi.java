@@ -3,7 +3,7 @@ package com.musinsa.search.api;
 import com.musinsa.search.api.response.BrandLowestPriceResponse;
 import com.musinsa.search.api.response.CategoryLowestPriceResponse;
 import com.musinsa.search.api.response.CategoryOneLowestPriceResponse;
-import com.musinsa.search.service.PricingService;
+import com.musinsa.search.facade.PricingFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @ResponseBody
 public class SearchApi {
 
-    private final PricingService pricingService;
+    private final PricingFacade pricingFacade;
 
 
     /**
@@ -23,7 +23,7 @@ public class SearchApi {
      * */
     @GetMapping("/api/cheapest-category")
     public ResponseEntity<CategoryLowestPriceResponse> getLowestPriceCategoryProduct(){
-        return new ResponseEntity<>(pricingService.getMinimumProduct(),
+        return new ResponseEntity<>(pricingFacade.getMinimumProduct(),
                 HttpStatus.FOUND);
     }
 
@@ -34,7 +34,7 @@ public class SearchApi {
      * */
     @GetMapping("/api/cheapest-brand")
     public ResponseEntity<BrandLowestPriceResponse> getLowestPriceBrandProduct(){
-        return new ResponseEntity<>(pricingService.getLowestBrandProduct(),
+        return new ResponseEntity<>(pricingFacade.getLowestBrandProduct(),
                 HttpStatus.FOUND);
     }
 
@@ -45,7 +45,7 @@ public class SearchApi {
      * */
     @GetMapping("/api/cheapest-hightest/{category}")
     public ResponseEntity<CategoryOneLowestPriceResponse> getLowestPriceBrandProduct(@PathVariable final String category){
-        return new ResponseEntity<>(pricingService.getLowHigtestBrandPrice(category),
+        return new ResponseEntity<>(pricingFacade.getLowHigtestBrandPrice(category),
                 HttpStatus.FOUND);
     }
 

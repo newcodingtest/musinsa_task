@@ -35,10 +35,6 @@ public class ProductInventoryFacade {
      * */
     @CacheEvict(value = "productCache", allEntries = true)
     public void createProduct(ProductCreateRequest productCreateRequest){
-        addProductExcute(productCreateRequest);
-    }
-
-    private void addProductExcute(ProductCreateRequest productCreateRequest) {
         cacheService.evictAllSpecifiedCaches();
         String category = productCreateRequest.getCategory();
         if(category.equals(RequestUtils.TOP)){
@@ -69,6 +65,7 @@ public class ProductInventoryFacade {
             throw new CategoryException.CategoryItemNotFoundException(CATEGORY_ITEM_NOT_FOUND, category);
         }
     }
+
 
     /**
      * 브랜드 및 상품을 업데이트
