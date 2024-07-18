@@ -224,7 +224,7 @@ $ ./gradlew test
 ```
 $ cd build/libs
 
-$ java -jar --Spring.profiles.active=dev usinsa-app.jar 
+$ java -jar --Spring.profiles.active=dev musinsa-app.jar 
 
 ```
 DB는 h2db 이며 접속 아래는 접속정보
