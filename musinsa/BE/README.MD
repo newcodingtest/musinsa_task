@@ -75,7 +75,7 @@ System.out.println(new BigDecimal("0.1").add(new BigDecimal("0.2"))); // 0.3
 ##### 가산점
 - [x] Unit test 및 Integration test 작성
 
-- [ ] Frontend 페이지 구현
+- [x] Frontend 페이지 구현
 
 
 <br>

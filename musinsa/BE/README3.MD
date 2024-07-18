@@ -1,7 +1,21 @@
 ### 구현 범위 설명
+체크리스트 모두 구현되어 있습니다.
+<br>
+##### 과제
+- [x] 카테고리 별 최저가격 브랜드와 상품 가격, 총액을 조회하는 API
 
+- [x]  단일 브랜드로 모든 카테고리 상품을 구매할 때 최저가격에 -판매하는 브랜드와 카테고리의     상 품가격, 총액을 조회하는 API
 
+- [x] 카테고리 별 최저가격 브랜드와 상품 가격, 총액을 조회하는 API
 
+- [x] 브랜드 및 상품을 추가 / 업데이트 / 삭제하는 API
+
+##### 가산점
+- [x] Unit test 및 Integration test 작성
+
+- [x] Frontend 페이지 구현
+
+<br><br><br>
 조회(search) 와 상품(product) 개념을 기반으로 패키지를 나누었습니다.
 
 구현1~3 까지의 기능은 search 가 담당합니다
@@ -114,6 +128,9 @@ exception과 request는 이를 담당합니다.
 Unit test 및 Integration test 코드를 구성했습니다.
 
 ![image-20240718005656011](https://github.com/user-attachments/assets/2399fc28-5322-4c51-ab84-424df44d8e1d)
+<br><br><br>
+
+
 
 
 
@@ -123,25 +140,269 @@ Unit test 및 Integration test 코드를 구성했습니다.
 
 
 
-**코드 빌드**
+### 코드 빌드
 
 ```shell
 $ ./gradlew build
 ```
 
+<br>
 
-
-**코드 테스트**
+### 코드 테스트
 
 ```
 $ ./gradlew test
 ```
 
+<br>
 
-
-**실행 방법**
+### 실행 방법
 
 ```
-$ java -jar --Spring.profiles.active=dev build/libs/musinsa-app.jar 
+$ cd build/libs
+
+$ java -jar --Spring.profiles.active=dev usinsa-app.jar 
+
+```
+DB는 h2db 이며 접속 아래는 접속정보
+이다
+```aidl
+http://localhost:1004/h2-console
+
+jdbc url: jdbc:h2:mem:devdb
+id: sa
+pw: password
+```
+![image](https://github.com/user-attachments/assets/377cd587-3a37-4894-be38-06361d6ebaa2)
+<br>
+
+### 화면으로 과제 기능 확인하기
+```aidl
+http://localhost:1004
+```
+구현 별로 확인 할 수 있는 간단한 홈 화면 입니다.
+![image](https://github.com/user-attachments/assets/7f24b441-c61a-409f-9197-4fd9b1ec8c12)
+
+<br>
+[카테고리 별 최저가격 브랜드와 상품 가격, 총액을 조회하는 API] 클릭시
+해당 기능에 대한 결과를 확인 할 수 있습니다.
+
+![image](https://github.com/user-attachments/assets/5decbab2-dc2b-4709-9965-fbeb9e7756d4)
+
+<br>
+[단일 브랜드로 모든 카테고리 상품을 구매할 때 최저가격에 판매하는 브랜드와 카테고리의 상품가격, 총액을
+                조회하는 API] 클릭시
+해당 기능에 대한 결과를 확인 할 수 있습니다.
+
+![image](https://github.com/user-attachments/assets/a68a667a-dd6c-42f1-8e9c-e632b50e57bf)
+
+<br>
+[카테고리 이름으로 최저/최고 브랜드 및 상품 가격 조회 API] 는 하위 카테고리 별로 버튼을 클릭하면 확인 할 수 있습니다.
+
+![image](https://github.com/user-attachments/assets/058b7586-a811-4484-83a1-9b10d8fbf8a3)
+
+![image](https://github.com/user-attachments/assets/075eeb8e-e268-418d-84c3-6878901c1e36)
+![image](https://github.com/user-attachments/assets/d57d347e-7d2d-405b-97ab-ae1bd0d16de2)
+<br><br>
+## API 명세
+
+![스크린샷 2024-07-17 151447](https://github.com/user-attachments/assets/08637c43-f46a-4e02-8640-071c101e86d4)
+
+```
+http://localhost:1004/api/cheapest-category
+```
+Response
+```
+{
+    "products": [
+        {
+            "카테고리": "모자",
+            "브랜드": "D",
+            "가격": "1,500"
+        },
+        {
+            "카테고리": "상의",
+            "브랜드": "C",
+            "가격": "10,000"
+        },
+        {
+            "카테고리": "아우터",
+            "브랜드": "E",
+            "가격": "5,000"
+        },
+        {
+            "카테고리": "바지",
+            "브랜드": "D",
+            "가격": "3,000"
+        },
+        {
+            "카테고리": "스니커즈",
+            "브랜드": "G",
+            "가격": "9,000"
+        },
+        {
+            "카테고리": "가방",
+            "브랜드": "A",
+            "가격": "2,000"
+        },
+        {
+            "카테고리": "양말",
+            "브랜드": "I",
+            "가격": "1,700"
+        },
+        {
+            "카테고리": "액세서리",
+            "브랜드": "F",
+            "가격": "1,900"
+        }
+    ],
+    "총액": "34,100"
+}
+```
+<br><br>
+
+![스크린샷 2024-07-17 151459](https://github.com/user-attachments/assets/fb987a28-3a1c-431c-befd-eb044717a48c)
+
+```
+http://localhost:1004/api/cheapest-brand
+```
+Response
+```
+{
+    "최저가": {
+        "브랜드": "D",
+        "카테고리": [
+            {
+                "카테고리": "모자",
+                "가격": "1,500"
+            },
+            {
+                "카테고리": "상의",
+                "가격": "10,100"
+            },
+            {
+                "카테고리": "아우터",
+                "가격": "5,100"
+            },
+            {
+                "카테고리": "바지",
+                "가격": "3,000"
+            },
+            {
+                "카테고리": "양말",
+                "가격": "2,400"
+            },
+            {
+                "카테고리": "스니커즈",
+                "가격": "9,500"
+            },
+            {
+                "카테고리": "액세서리",
+                "가격": "2,000"
+            },
+            {
+                "카테고리": "가방",
+                "가격": "2,500"
+            }
+        ]
+    },
+    "총액": "36,100"
+}
 ```
 
+<br><br>
+
+![스크린샷 2024-07-17 151516](https://github.com/user-attachments/assets/59fe89f1-490c-4511-af68-0e0d9df31265)
+```
+http://localhost:1004/api/cheapest-hightest/${category}
+
+
+${category}:
+top, outer, bottom, socks, sneakers, hat, bag, accessory
+```
+Response
+```
+{
+    "카테고리": "상의",
+    "최저가": {
+        "브랜드": "C",
+        "가격": "10,000"
+    },
+    "최고가": {
+        "브랜드": "I",
+        "가격": "11,400"
+    }
+}
+```
+<br><br>
+
+
+![스크린샷 2024-07-17 151532](https://github.com/user-attachments/assets/3a6e281b-8581-4131-b755-aea8fa63538e)
+
+```
+http://localhost:1004/api/products
+```
+**Request Body** (json)
+
+```
+{
+    "brand" : "C",       //A~Z
+    "category" : "top",  //top, outer, bottom, socks, sneakers, hat, bag, accessory
+    "price" : 10000
+}
+```
+Response
+```
+{
+    "카테고리": "상의",
+    "최저가": {
+        "브랜드": "C",
+        "가격": "10,000"
+    },
+    "최고가": {
+        "브랜드": "I",
+        "가격": "11,400"
+    }
+}
+```
+
+<br><br>
+
+![스크린샷 2024-07-17 151544](https://github.com/user-attachments/assets/ecabe12b-0f18-4b2c-ae9a-30cf813203f6)
+
+```
+http://localhost:1004/api/products
+```
+
+**Request Body** (json)
+```
+{
+    "id" : 10,    
+    "brand" : "C",      //A~Z
+    "category" : "top", //top, outer, bottom, socks, sneakers, hat, bag, accessory
+    "price" : 90000
+}
+```
+Response
+```
+HTTP Status 200
+```
+<br><br>
+
+![스크린샷 2024-07-17 151558](https://github.com/user-attachments/assets/2cfbb6dc-1135-4fec-9322-496400162262)
+
+```
+http://localhost:1004/api/products
+```
+
+**Request Body** (json)
+```
+{
+    "id" : 10,
+    "category" : "top" //top, outer, bottom, socks, sneakers, hat, bag, accessory
+}
+```
+Response
+```
+HTTP Status 200
+```
