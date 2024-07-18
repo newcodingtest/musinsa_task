@@ -202,34 +202,44 @@ System.out.println(new BigDecimal("0.1").add(new BigDecimal("0.2"))); // 0.3
 `open jdk 17` 이상으로 jdk를 먼저 세팅해주세요.
 
 
+### 프로젝트 클론
+```shell
+$ git init
+
+$ git clone https://github.com/newcodingtest/musinsa_task.git
+```
+
+### 코드 빌드 폴더 이동
+```shell
+$ cd musinsa_task/musinsa/BE
+```
 
 ### 코드 빌드
 
 ```shell
-$ ./gradlew build
+$ gradlew build
 ```
 
-<br>
 
 ### 코드 테스트
 
-```
-$ ./gradlew test
+```shell
+$ gradlew test
 ```
 
 <br>
 
 ### 실행 방법
 
-```
+```shell
 $ cd build/libs
 
-$ java -jar --Spring.profiles.active=dev musinsa-app.jar 
+$ java -jar musinsa-app.jar --Spring.profiles.active=dev
 
 ```
 DB는 h2db 이며 접속 아래는 접속정보
 이다
-```aidl
+```shell
 http://localhost:1004/h2-console
 
 jdbc url: jdbc:h2:mem:devdb
