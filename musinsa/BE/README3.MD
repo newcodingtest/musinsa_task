@@ -130,6 +130,69 @@ Unit test 및 Integration test 코드를 구성했습니다.
 ![image-20240718005656011](https://github.com/user-attachments/assets/2399fc28-5322-4c51-ab84-424df44d8e1d)
 <br><br><br>
 
+## 기타
+### 가격을 인덱스로 설정한 이유
+
+#### 가격 필드를 인덱스로 설정하는 경우
+
+1. **빈번한 가격 기반 조회**: 가격을 기준으로 데이터를 자주 조회하거나 정렬할 경우.
+2. **가격 필터링**: 가격 범위로 데이터를 자주 필터링할 경우.
+3. **성능 최적화 필요**: 가격 기반 쿼리의 성능이 중요한 경우.
+
+
+
+<b>가격을 인덱스로 설정하면 다음과 같은 이점이 있다.</b>
+
+- **빠른 조회**: 가격 순서로 정렬된 데이터를 빠르게 조회.
+- **효율적 필터링**: 특정 가격 범위 내의 데이터를 빠르게 필터링.
+
+
+#### 인덱스의 단점
+
+1. **추가 저장 공간 필요**: 인덱스를 저장하기 위한 추가 공간이 필요하다.
+2. **데이터 삽입/수정 시 성능 저하**: 인덱스를 유지 관리하기 위해 삽입, 삭제, 업데이트 작업 시 오버헤드가 발생한다.
+
+
+
+### 결론
+
+대용량 환경이라 가정하고 가격 기반으로 조회 하는것이 주된 중요 기능이라 생각했다.
+때문에 장단점을 trade Off 하여 인덱스를 결정하였다.
+
+
+
+
+<br>
+
+### 가격에  BigDecimal 사용이유
+
+### 1. **정확한 소수점 연산**
+
+`BigDecimal`은 소수점 이하의 연산을 정확하게 처리할 수 있다. 부동소수점 타입인 `float`나 `double`은 근사값을 저장하므로, 특히 금융 계산에서 부정확한 결과를 초래할 수 있다.
+
+예시:
+
+```
+System.out.println(0.1 + 0.2); // 0.30000000000000004
+System.out.println(new BigDecimal("0.1").add(new BigDecimal("0.2"))); // 0.3
+```
+
+### 2. **정확한 값 표현**
+
+`BigDecimal`은 정수부와 소수부를 분리하여 저장하기 때문에, 입력한 값을 정확하게 표현할 수 있다. 반면, `float`나 `double`은 내부적으로 2진수로 저장되기 때문에 일부 10진수를 정확하게 표현하지 못할 수 있습니다.
+
+### 3. **금융 계산에 적합**
+
+금융 계산에서는 센트 단위의 작은 오차도 큰 문제가 될 수 있다. `BigDecimal`을 사용하면 이러한 오차 없이 정확한 계산이 가능하다.
+
+### 4. **스케일과 정밀도 제어**
+
+`BigDecimal`은 소수점 이하 자리수를 지정할 수 있는 `scale`과 전체 자리수를 지정할 수 있는 `precision`을 통해 유연하게 값의 정밀도를 제어할 수 있다.
+
+
+
+<br><br>
+
 
 
 
@@ -204,6 +267,10 @@ http://localhost:1004
 ![image](https://github.com/user-attachments/assets/075eeb8e-e268-418d-84c3-6878901c1e36)
 ![image](https://github.com/user-attachments/assets/d57d347e-7d2d-405b-97ab-ae1bd0d16de2)
 <br><br>
+
+[브랜드 및 상품을 추가 / 업데이트 / 삭제하는 API]를 클릭하면 Create, Update, Delete 할 수 있는 화면으로 이동합니다.
+![image](https://github.com/user-attachments/assets/6f27a5f8-b326-4404-a4df-2a6638ecad0c)
+![image](https://github.com/user-attachments/assets/5094b510-de58-40bc-b1b8-6a7d372f460e)
 ## API 명세
 
 ![스크린샷 2024-07-17 151447](https://github.com/user-attachments/assets/08637c43-f46a-4e02-8640-071c101e86d4)
