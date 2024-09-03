@@ -19,6 +19,7 @@ import java.util.List;
 public class ProductRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
+
     public List<ProductQueryDto> findCategoryLowestPriceDetails() {
         QProductEntity product = QProductEntity.productEntity;
 
@@ -47,4 +48,65 @@ public class ProductRepository {
                 ))
                 .fetch();
     }
+    /**
+     1. 총액이 가장 싼놈 구하기
+
+     SELECT p.brand, SUM(p.price) AS totalAmount
+     FROM Product p
+     GROUP BY p.brand
+     HAVING COUNT(DISTINCT p.category) = (SELECT COUNT(DISTINCT p2.category) FROM Product p2)
+     ORDER BY totalAmount ASC
+     * */
+    public List<ProductQueryDto.LowerTotalPriceDto> findLowerBrand(){
+        QProductEntity product = QProductEntity.productEntity;
+
+        var subQuery = jpaQueryFactory
+                .select(product.category.countDistinct())
+                .from(product);
+
+        return jpaQueryFactory
+                .select(Projections.constructor(ProductQueryDto.LowerTotalPriceDto.class,
+                        product.brand,
+                        product.price.sum().as("price"))
+                )
+                .from(product)
+                .groupBy(product.brand)
+                .having(product.category.countDistinct().eq(subQuery))
+                .orderBy(product.price.sum().asc())
+                .limit(1)
+                .fetch();
+    }
+
+    /**
+     2.가장 저렴한 브랜드의 카테고리와 가격 조회
+
+     select category, brand, MIN(price)
+     from product
+     where category in (select category from product group by category)
+     and brand='A'
+     group by category
+
+     [리펙토링]
+     SELECT category, brand, MIN(price)
+     FROM product
+     WHERE brand = 'A'
+     GROUP BY category, brand;
+
+     *
+     * */
+    public List<ProductQueryDto.LowerBrandDto> findLowerItem(final String brand){
+        QProductEntity product = QProductEntity.productEntity;
+
+         return jpaQueryFactory
+                .select(Projections.constructor(ProductQueryDto.LowerBrandDto.class,
+                        product.category,
+                        product.brand,
+                        product.price.min()))
+                .from(product)
+                .where(product.brand.eq(brand))
+                .groupBy(product.category, product.brand)
+                 .fetch();
+    }
+
+
 }

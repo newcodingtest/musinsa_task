@@ -1,22 +1,15 @@
 package com.musinsa.shop.api;
 
-import com.musinsa.shop.api.response.ItemResponse;
-import com.musinsa.shop.api.response.LowestPricedItems;
+import com.musinsa.shop.api.response.LowestPricedResponse;
 import com.musinsa.shop.dto.query.ProductQueryDto;
 import com.musinsa.shop.infrastructure.entity.ClothingCategory;
 import com.musinsa.shop.service.query.ProductQueryService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -51,14 +44,14 @@ public class ProductSearchApiTest {
         when(productQueryService.getLowerItems())
                 .thenReturn(mockItems);
 
-        List<ItemResponse> expectedItems = mockItems.stream()
-                .map(ItemResponse::fromModel)
+        List<LowestPricedResponse.LowerPricedItem> expectedItems = mockItems.stream()
+                .map(LowestPricedResponse.LowerPricedItem::fromModel)
                 .collect(Collectors.toList());
         BigDecimal expectedTotalPrice = mockItems.stream()
                 .map(ProductQueryDto::getPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        LowestPricedItems expectedResponse = LowestPricedItems.builder()
+        LowestPricedResponse expectedResponse = LowestPricedResponse.builder()
                 .items(expectedItems)
                 .totalPrice(expectedTotalPrice.toString())
                 .build();
